@@ -55,9 +55,14 @@ A complete E-Commerce REST API built in Go following a layered architecture patt
 ├── cmd/
 │   └── server/
 │       └── main.go           # Application entry point
+├── configs/
+│   ├── local.env             # Local development settings
+│   ├── test.env              # Test environment settings
+│   └── prod.env              # Production settings
 ├── internal/
 │   ├── auth/                 # Authentication module
 │   ├── cart/                 # Shopping cart module
+│   ├── config/               # Centralized configuration
 │   ├── db/                   # Database connection and migrations
 │   ├── inventory/            # Inventory management module
 │   ├── middleware/           # HTTP middleware (auth, roles)
@@ -79,17 +84,19 @@ A complete E-Commerce REST API built in Go following a layered architecture patt
 
 ## Configuration
 
-The application uses environment variables for configuration:
+The application uses environment variables for configuration. Config files are in `configs/` directory.
 
 | Variable | Default | Description |
 |----------|---------|-------------|
+| `APP_ENV` | local | Environment (`local`, `test`, `prod`) |
 | `DB_HOST` | localhost | PostgreSQL host |
-| `DB_PORT` | 5432 | PostgreSQL port |
+| `DB_PORT` | 5434 | PostgreSQL port |
 | `DB_USER` | postgres | PostgreSQL username |
-| `DB_PASSWORD` | postgres | PostgreSQL password |
-| `DB_NAME` | ecommerce | Database name |
+| `DB_PASSWORD` | example | PostgreSQL password |
+| `DB_NAME` | postgres | Database name |
 | `DB_SSLMODE` | disable | SSL mode (disable/require) |
-| `PORT` | 8080 | Server port |
+| `SERVER_PORT` | 8080 | Server port |
+| `SESSION_TTL_MINUTES` | 60 | Session token validity in minutes |
 
 ## Getting Started
 

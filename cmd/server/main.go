@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/mschl/ecommerce-api/internal/auth"
 	"github.com/mschl/ecommerce-api/internal/cart"
+	"github.com/mschl/ecommerce-api/internal/config"
 	"github.com/mschl/ecommerce-api/internal/db"
 	"github.com/mschl/ecommerce-api/internal/inventory"
 	"github.com/mschl/ecommerce-api/internal/middleware"
@@ -50,11 +50,10 @@ func healthCheck(w http.ResponseWriter, r *http.Request) {
 }
 
 type serverDeps struct {
-	newConfig func() db.Config
-	connect   func(db.Config) (*gorm.DB, error)
-	migrate   func(*gorm.DB) error
-	listen    func(string, http.Handler) error
-	getEnv    func(string) string
+	loadConfig func(configDir string, defaultEnv string) (*config.Config, error)
+	connect    func(config.DBConfig) (*gorm.DB, error)
+	migrate    func(*gorm.DB) error
+	listen     func(string, http.Handler) error
 }
 
 var runMain = run
@@ -143,16 +142,19 @@ func buildMux(database *gorm.DB) *http.ServeMux {
 
 	// Swagger UI
 	mux.Handle("/swagger/", httpSwagger.Handler(
-		httpSwagger.URL("http://localhost:8080/swagger/doc.json"),
+		httpSwagger.URL("/swagger/doc.json"),
 	))
 
 	return mux
 }
 
 func run(deps serverDeps) error {
-	config := deps.newConfig()
+	cfg, err := deps.loadConfig("configs", "local")
+	if err != nil {
+		return fmt.Errorf("load config: %w", err)
+	}
 
-	database, err := deps.connect(config)
+	database, err := deps.connect(cfg.DB)
 	if err != nil {
 		return fmt.Errorf("connect db: %w", err)
 	}
@@ -163,11 +165,8 @@ func run(deps serverDeps) error {
 
 	mux := buildMux(database)
 
-	port := deps.getEnv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-	addr := fmt.Sprintf(":%s", port)
+	addr := fmt.Sprintf(":%s", cfg.Server.Port)
+	log.Printf("Server starting on %s (env: %s)", addr, cfg.AppEnv)
 
 	if err := deps.listen(addr, mux); err != nil {
 		if errors.Is(err, http.ErrServerClosed) {
@@ -181,11 +180,10 @@ func run(deps serverDeps) error {
 
 func defaultDeps() serverDeps {
 	return serverDeps{
-		newConfig: db.NewConfigFromEnv,
-		connect:   db.Connect,
-		migrate:   db.Migrate,
-		listen:    http.ListenAndServe,
-		getEnv:    os.Getenv,
+		loadConfig: config.LoadFromAppEnv,
+		connect:    db.Connect,
+		migrate:    db.Migrate,
+		listen:     http.ListenAndServe,
 	}
 }
 

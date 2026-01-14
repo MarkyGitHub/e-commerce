@@ -52,12 +52,13 @@ cd E_Commerce_Plattform
 docker-compose up -d
 ```
 
-Dadurch wird ein PostgreSQL Container mit folgender Konfiguration gestartet ( `.env`-Datei local.env):
-- **Container-Name:** `ecommerce-postgres`
-- **User:** `ecommerce`
-- **Passwort:** `ecommerce`
-- **Datenbank:** `ecommerce`
-- **Port:** `5432`
+Dadurch wird ein PostgreSQL Container mit folgender Konfiguration gestartet:
+- **Container-Name:** `e-commerce-db`
+- **User:** `postgres`
+- **Passwort:** `example`
+- **Datenbank:** `postgres`
+- **Port:** `5434` (extern) → `5432` (intern)
+- **Adminer (DB-Verwaltung):** `http://localhost:8083`
 
 ### Schritt 2: Prüfen, ob die Datenbank läuft
 
@@ -66,7 +67,7 @@ Dadurch wird ein PostgreSQL Container mit folgender Konfiguration gestartet ( `.
 docker ps
 
 # View logs
-docker logs ecommerce-postgres
+docker logs e-commerce-db
 ```
 
 ### Schritt 3: Anwendung starten
@@ -97,14 +98,14 @@ docker-compose down -v
 
 | Variable | Default | Beschreibung |
 |----------|---------|--------------|
+| `APP_ENV` | `local` | Anwendungskontext (`local`, `test`, `prod`) |
 | `DB_HOST` | `localhost` | Hostname des PostgreSQL-Servers |
-| `DB_PORT` | `5432` | Port des PostgreSQL-Servers |
+| `DB_PORT` | `5434` | Port des PostgreSQL-Servers |
 | `DB_USER` | `postgres` | Datenbank-Benutzername |
-| `DB_PASSWORD` | `postgres` | Datenbank-Passwort |
-| `DB_NAME` | `ecommerce` | Datenbankname |
+| `DB_PASSWORD` | `example` | Datenbank-Passwort |
+| `DB_NAME` | `postgres` | Datenbankname |
 | `DB_SSLMODE` | `disable` | SSL-Modus (`disable`, `require`, `verify-full`) |
-| `PORT` | `8080` | HTTP-Server-Port |
-| `APP_ENV` | - | Anwendungskontext (`local`, `test`, `prod`) |
+| `SERVER_PORT` | `8080` | HTTP-Server-Port |
 | `SESSION_TTL_MINUTES` | `60` | Gültigkeitsdauer des Session-Tokens in Minuten |
 
 ### Konfigurationsdateien
@@ -120,15 +121,18 @@ Im Verzeichnis `configs/` liegen vorkonfigurierte Environment-Dateien:
 ### Konfigurationsdateien laden
 
 ```bash
-# Linux/macOS - Load config file
+# Linux/macOS (bash/zsh) - Config-Datei laden
 source configs/local.env
 
-# Windows PowerShell - Load config file
+# Windows PowerShell - Config-Datei laden
 Get-Content configs\local.env | ForEach-Object {
     if ($_ -match '^([^=]+)=(.*)$') {
         [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
     }
 }
+
+# Windows CMD - Config-Datei laden (aktuelle cmd-Session)
+for /f "usebackq tokens=1,* delims==" %A in ("configs\local.env") do set %A=%B
 ```
 
 ---
@@ -141,8 +145,14 @@ Get-Content configs\local.env | ForEach-Object {
 # run
 go run cmd/server/main.go
 
-# With custom port
+# With custom port (Linux/macOS)
 PORT=3000 go run cmd/server/main.go
+
+# With custom port (Windows PowerShell)
+$env:PORT="3000"; go run cmd/server/main.go
+
+# With custom port (Windows CMD)
+set PORT=3000 && go run cmd/server/main.go
 ```
 
 ### Binary bauen und ausführen
@@ -161,11 +171,18 @@ go build -o server.exe cmd/server/main.go
 ### Vorkonfigurierte Umgebungen verwenden
 
 ```bash
-# Local environment
+# Local environment (Linux/macOS)
 source configs/local.env && go run cmd/server/main.go
 
-# Test environment
+# Test environment (Linux/macOS)
 source configs/test.env && go run cmd/server/main.go
+
+# Windows PowerShell (local)
+Get-Content configs\local.env | ForEach-Object { if ($_ -match '^([^=]+)=(.*)$') { [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2]) } }; go run cmd/server/main.go
+
+# Windows CMD (local)
+for /f "usebackq tokens=1,* delims==" %A in ("configs\local.env") do set %A=%B
+go run cmd/server/main.go
 ```
 
 ---
@@ -303,7 +320,7 @@ Für Tests empfiehlt sich eine separate Testdatenbank via Docker:
 
 ```bash
 # Connect to the Docker container and create test database
-docker exec -it ecommerce-postgres psql -U ecommerce -c "CREATE DATABASE ecommerce_test;"
+docker exec -it e-commerce-db psql -U postgres -c "CREATE DATABASE postgres_test;"
 ```
 
 ---
@@ -324,10 +341,14 @@ docker exec -it ecommerce-postgres psql -U ecommerce -c "CREATE DATABASE ecommer
 
 ```bash
 # Check if PostgreSQL is running
-docker ps | grep ecommerce-postgres
+docker ps | grep e-commerce-db
 
 # Test connection via Docker
-docker exec -it ecommerce-postgres psql -U ecommerce -d ecommerce -c "SELECT 1;"
+docker exec -it e-commerce-db psql -U postgres -c "SELECT 1;"
+
+# Open Adminer (browser-based DB admin)
+# Navigate to http://localhost:8083
+# System: PostgreSQL, Server: db, User: postgres, Password: example
 ```
 
 #### 2. Port bereits belegt
@@ -372,7 +393,7 @@ chmod +x server.exe
 **Lösungen:**
 ```bash
 # Check container logs
-docker logs ecommerce-postgres
+docker logs e-commerce-db
 
 # Remove and recreate container
 docker-compose down -v

@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/mschl/ecommerce-api/internal/config"
 	"github.com/mschl/ecommerce-api/internal/db"
 	"github.com/mschl/ecommerce-api/internal/testutil"
 	"gorm.io/gorm"
@@ -25,6 +26,14 @@ func TestHealthCheck_OK(t *testing.T) {
 	}
 }
 
+func mockConfig(port string) *config.Config {
+	return &config.Config{
+		AppEnv: "test",
+		Server: config.ServerConfig{Port: port},
+		DB:     config.DBConfig{},
+	}
+}
+
 func TestRun_DefaultPort(t *testing.T) {
 	testDB := testutil.SetupTestDB(t)
 	if err := db.Migrate(testDB); err != nil {
@@ -33,8 +42,10 @@ func TestRun_DefaultPort(t *testing.T) {
 
 	var gotAddr string
 	deps := serverDeps{
-		newConfig: func() db.Config { return db.Config{} },
-		connect: func(db.Config) (*gorm.DB, error) {
+		loadConfig: func(string, string) (*config.Config, error) {
+			return mockConfig("8080"), nil
+		},
+		connect: func(config.DBConfig) (*gorm.DB, error) {
 			return testDB, nil
 		},
 		migrate: func(*gorm.DB) error { return nil },
@@ -45,7 +56,6 @@ func TestRun_DefaultPort(t *testing.T) {
 			}
 			return nil
 		},
-		getEnv: func(string) string { return "" },
 	}
 
 	if err := run(deps); err != nil {
@@ -61,8 +71,10 @@ func TestRun_CustomPort(t *testing.T) {
 
 	var gotAddr string
 	deps := serverDeps{
-		newConfig: func() db.Config { return db.Config{} },
-		connect: func(db.Config) (*gorm.DB, error) {
+		loadConfig: func(string, string) (*config.Config, error) {
+			return mockConfig("9090"), nil
+		},
+		connect: func(config.DBConfig) (*gorm.DB, error) {
 			return testDB, nil
 		},
 		migrate: func(*gorm.DB) error { return nil },
@@ -70,7 +82,6 @@ func TestRun_CustomPort(t *testing.T) {
 			gotAddr = addr
 			return nil
 		},
-		getEnv: func(string) string { return "9090" },
 	}
 
 	if err := run(deps); err != nil {
@@ -81,15 +92,33 @@ func TestRun_CustomPort(t *testing.T) {
 	}
 }
 
+func TestRun_ConfigError(t *testing.T) {
+	deps := serverDeps{
+		loadConfig: func(string, string) (*config.Config, error) {
+			return nil, errors.New("config failed")
+		},
+		connect: func(config.DBConfig) (*gorm.DB, error) {
+			return nil, nil
+		},
+		migrate: func(*gorm.DB) error { return nil },
+		listen:  func(string, http.Handler) error { return nil },
+	}
+
+	if err := run(deps); err == nil {
+		t.Fatalf("expected error")
+	}
+}
+
 func TestRun_PropagatesErrors(t *testing.T) {
 	deps := serverDeps{
-		newConfig: func() db.Config { return db.Config{} },
-		connect: func(db.Config) (*gorm.DB, error) {
+		loadConfig: func(string, string) (*config.Config, error) {
+			return mockConfig("8080"), nil
+		},
+		connect: func(config.DBConfig) (*gorm.DB, error) {
 			return nil, errors.New("connect failed")
 		},
 		migrate: func(*gorm.DB) error { return nil },
 		listen:  func(string, http.Handler) error { return nil },
-		getEnv:  func(string) string { return "" },
 	}
 
 	if err := run(deps); err == nil {
@@ -99,13 +128,14 @@ func TestRun_PropagatesErrors(t *testing.T) {
 
 func TestRun_MigrateError(t *testing.T) {
 	deps := serverDeps{
-		newConfig: func() db.Config { return db.Config{} },
-		connect: func(db.Config) (*gorm.DB, error) {
+		loadConfig: func(string, string) (*config.Config, error) {
+			return mockConfig("8080"), nil
+		},
+		connect: func(config.DBConfig) (*gorm.DB, error) {
 			return &gorm.DB{}, nil
 		},
 		migrate: func(*gorm.DB) error { return errors.New("migrate failed") },
 		listen:  func(string, http.Handler) error { return nil },
-		getEnv:  func(string) string { return "" },
 	}
 
 	if err := run(deps); err == nil {
@@ -115,13 +145,14 @@ func TestRun_MigrateError(t *testing.T) {
 
 func TestRun_ListenErrServerClosed_IsNil(t *testing.T) {
 	deps := serverDeps{
-		newConfig: func() db.Config { return db.Config{} },
-		connect: func(db.Config) (*gorm.DB, error) {
+		loadConfig: func(string, string) (*config.Config, error) {
+			return mockConfig("8080"), nil
+		},
+		connect: func(config.DBConfig) (*gorm.DB, error) {
 			return &gorm.DB{}, nil
 		},
 		migrate: func(*gorm.DB) error { return nil },
 		listen:  func(string, http.Handler) error { return http.ErrServerClosed },
-		getEnv:  func(string) string { return "" },
 	}
 
 	if err := run(deps); err != nil {
@@ -131,13 +162,14 @@ func TestRun_ListenErrServerClosed_IsNil(t *testing.T) {
 
 func TestRun_ListenError(t *testing.T) {
 	deps := serverDeps{
-		newConfig: func() db.Config { return db.Config{} },
-		connect: func(db.Config) (*gorm.DB, error) {
+		loadConfig: func(string, string) (*config.Config, error) {
+			return mockConfig("8080"), nil
+		},
+		connect: func(config.DBConfig) (*gorm.DB, error) {
 			return &gorm.DB{}, nil
 		},
 		migrate: func(*gorm.DB) error { return nil },
 		listen:  func(string, http.Handler) error { return errors.New("listen failed") },
-		getEnv:  func(string) string { return "" },
 	}
 
 	if err := run(deps); err == nil {

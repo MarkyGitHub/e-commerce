@@ -54,12 +54,13 @@ cd E_Commerce_Plattform
 docker-compose up -d
 ```
 
-This will start a PostgreSQL 16 container with the following configuration:
-- **Container Name:** `ecommerce-postgres`
-- **User:** `ecommerce`
-- **Password:** `ecommerce`
-- **Database:** `ecommerce`
-- **Port:** `5432`
+This will start a PostgreSQL container with the following configuration:
+- **Container Name:** `e-commerce-db`
+- **User:** `postgres`
+- **Password:** `example`
+- **Database:** `postgres`
+- **Port:** `5434` (external) → `5432` (internal)
+- **Adminer (DB admin UI):** `http://localhost:8083`
 
 ### Step 2: Verify Database is Running
 
@@ -68,7 +69,7 @@ This will start a PostgreSQL 16 container with the following configuration:
 docker ps
 
 # View container logs
-docker logs ecommerce-postgres
+docker logs e-commerce-db
 ```
 
 ### Step 3: Run the Application
@@ -116,18 +117,19 @@ cp configs/local.env .env
 
 # Option 2: Export environment variables (Linux/macOS)
 export DB_HOST=localhost
-export DB_PORT=5432
-export DB_USER=ecommerce
-export DB_PASSWORD=ecommerce
-export DB_NAME=ecommerce
-export PORT=8080
+export DB_PORT=5434
+export DB_USER=postgres
+export DB_PASSWORD=example
+export DB_NAME=postgres
+export SERVER_PORT=8080
 
 # Option 2: Set environment variables (Windows PowerShell)
 $env:DB_HOST="localhost"
-$env:DB_PORT="5432"
-$env:DB_USER="ecommerce"
-$env:DB_PASSWORD="ecommerce"
-$env:DB_NAME="ecommerce"
+$env:DB_PORT="5434"
+$env:DB_USER="postgres"
+$env:DB_PASSWORD="example"
+$env:DB_NAME="postgres"
+$env:SERVER_PORT="8080"
 $env:PORT="8080"
 ```
 
@@ -139,14 +141,14 @@ $env:PORT="8080"
 
 | Variable | Default | Description |
 |----------|---------|-------------|
+| `APP_ENV` | `local` | Application environment (`local`, `test`, `prod`) |
 | `DB_HOST` | `localhost` | PostgreSQL server hostname |
-| `DB_PORT` | `5432` | PostgreSQL server port |
+| `DB_PORT` | `5434` | PostgreSQL server port |
 | `DB_USER` | `postgres` | Database username |
-| `DB_PASSWORD` | `postgres` | Database password |
-| `DB_NAME` | `ecommerce` | Database name |
+| `DB_PASSWORD` | `example` | Database password |
+| `DB_NAME` | `postgres` | Database name |
 | `DB_SSLMODE` | `disable` | SSL mode (`disable`, `require`, `verify-full`) |
-| `PORT` | `8080` | HTTP server port |
-| `APP_ENV` | - | Application environment (`local`, `test`, `prod`) |
+| `SERVER_PORT` | `8080` | HTTP server port |
 | `SESSION_TTL_MINUTES` | `60` | Session token validity duration in minutes |
 
 ### Configuration Files
@@ -162,7 +164,7 @@ The project includes pre-configured environment files in the `configs/` director
 ### Loading Configuration Files
 
 ```bash
-# Linux/macOS - Load from config file
+# Linux/macOS (bash/zsh) - Load from config file
 source configs/local.env
 
 # Windows PowerShell - Load from config file
@@ -171,6 +173,9 @@ Get-Content configs\local.env | ForEach-Object {
         [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
     }
 }
+
+# Windows CMD - Load from config file (current cmd session)
+for /f "usebackq tokens=1,* delims==" %A in ("configs\local.env") do set %A=%B
 ```
 
 ---
@@ -183,8 +188,14 @@ Get-Content configs\local.env | ForEach-Object {
 # Standard run
 go run cmd/server/main.go
 
-# With custom port
+# With custom port (Linux/macOS)
 PORT=3000 go run cmd/server/main.go
+
+# With custom port (Windows PowerShell)
+$env:PORT="3000"; go run cmd/server/main.go
+
+# With custom port (Windows CMD)
+set PORT=3000 && go run cmd/server/main.go
 ```
 
 ### Building and Running Binary
@@ -203,11 +214,18 @@ go build -o server.exe cmd/server/main.go
 ### Using Pre-configured Environments
 
 ```bash
-# Local development
+# Local development (Linux/macOS)
 source configs/local.env && go run cmd/server/main.go
 
-# Test environment
+# Test environment (Linux/macOS)
 source configs/test.env && go run cmd/server/main.go
+
+# Windows PowerShell (local)
+Get-Content configs\local.env | ForEach-Object { if ($_ -match '^([^=]+)=(.*)$') { [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2]) } }; go run cmd/server/main.go
+
+# Windows CMD (local)
+for /f "usebackq tokens=1,* delims==" %A in ("configs\local.env") do set %A=%B
+go run cmd/server/main.go
 ```
 
 ---
@@ -347,7 +365,7 @@ For running tests, create a separate test database using Docker:
 
 ```bash
 # Connect to the Docker PostgreSQL container and create test database
-docker exec -it ecommerce-postgres psql -U ecommerce -c "CREATE DATABASE ecommerce_test;"
+docker exec -it e-commerce-db psql -U postgres -c "CREATE DATABASE postgres_test;"
 ```
 
 ---
@@ -368,10 +386,14 @@ docker exec -it ecommerce-postgres psql -U ecommerce -c "CREATE DATABASE ecommer
 
 ```bash
 # Check if PostgreSQL container is running
-docker ps | grep ecommerce-postgres
+docker ps | grep e-commerce-db
 
 # Test connection via Docker
-docker exec -it ecommerce-postgres psql -U ecommerce -d ecommerce -c "SELECT 1;"
+docker exec -it e-commerce-db psql -U postgres -c "SELECT 1;"
+
+# Open Adminer (browser-based DB admin)
+# Navigate to http://localhost:8083
+# System: PostgreSQL, Server: db, User: postgres, Password: example
 ```
 
 #### 2. Port Already in Use
@@ -416,7 +438,7 @@ chmod +x server.exe
 **Solutions:**
 ```bash
 # Check container logs
-docker logs ecommerce-postgres
+docker logs e-commerce-db
 
 # Remove and recreate container
 docker-compose down -v
@@ -458,7 +480,7 @@ After successful installation:
 
 ```bash
 # Connect to the Docker PostgreSQL container
-docker exec -it ecommerce-postgres psql -U ecommerce -d ecommerce
+docker exec -it e-commerce-db psql -U ecommerce -d ecommerce
 
 # Run the SQL command to update user role
 UPDATE users SET role = 'admin' WHERE email = 'your-email@example.com';

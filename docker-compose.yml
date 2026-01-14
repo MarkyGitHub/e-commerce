@@ -1,18 +1,24 @@
-version: "3.9"
-
+# Use postgres/example user/password credentials
 services:
-  postgres:
-    image: postgres:16
-    container_name: ecommerce-postgres
+  db:
+    image: postgres
+    container_name: e-commerce-db
     restart: always
-    environment:
-      POSTGRES_USER: ecommerce
-      POSTGRES_PASSWORD: ecommerce
-      POSTGRES_DB: ecommerce
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
     ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      - 5434:5432
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: example
 
-volumes:
-  pgdata:
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8083:8080

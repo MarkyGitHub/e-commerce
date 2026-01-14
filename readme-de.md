@@ -55,9 +55,14 @@ Eine vollständige E-Commerce REST API, gebaut in Go und umgesetzt nach einem La
 ├── cmd/
 │   └── server/
 │       └── main.go           # Anwendungseinstiegspunkt
+├── configs/
+│   ├── local.env             # Einstellungen für lokale Entwicklung
+│   ├── test.env              # Einstellungen für Testumgebung
+│   └── prod.env              # Produktionseinstellungen
 ├── internal/
 │   ├── auth/                 # Authentifizierungsmodul
 │   ├── cart/                 # Warenkorb-Modul
+│   ├── config/               # Zentrale Konfiguration
 │   ├── db/                   # Datenbankverbindung und Migrationen
 │   ├── inventory/            # Bestandsverwaltungsmodul
 │   ├── middleware/           # HTTP-Middleware (Auth, Rollen)
@@ -79,17 +84,19 @@ Eine vollständige E-Commerce REST API, gebaut in Go und umgesetzt nach einem La
 
 ## Konfiguration
 
-Die Anwendung verwendet Umgebungsvariablen zur Konfiguration:
+Die Anwendung verwendet Umgebungsvariablen zur Konfiguration. Konfigurationsdateien befinden sich im Verzeichnis `configs/`.
 
 | Variable | Default | Beschreibung |
 |----------|---------|--------------|
+| `APP_ENV` | local | Umgebung (`local`, `test`, `prod`) |
 | `DB_HOST` | localhost | PostgreSQL-Host |
-| `DB_PORT` | 5432 | PostgreSQL-Port |
+| `DB_PORT` | 5434 | PostgreSQL-Port |
 | `DB_USER` | postgres | PostgreSQL-Benutzername |
-| `DB_PASSWORD` | postgres | PostgreSQL-Passwort |
-| `DB_NAME` | ecommerce | Datenbankname |
+| `DB_PASSWORD` | example | PostgreSQL-Passwort |
+| `DB_NAME` | postgres | Datenbankname |
 | `DB_SSLMODE` | disable | SSL-Modus (disable/require) |
-| `PORT` | 8080 | Server-Port |
+| `SERVER_PORT` | 8080 | Server-Port |
+| `SESSION_TTL_MINUTES` | 60 | Gültigkeitsdauer des Session-Tokens in Minuten |
 
 ## Schnellstart
 
