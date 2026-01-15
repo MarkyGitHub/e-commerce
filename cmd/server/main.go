@@ -17,7 +17,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/products"
 	"gorm.io/gorm"
 
-	_ "github.com/mschl/ecommerce-api/docs/swagger" // Import generated docs
+	_ "github.com/mschl/ecommerce-api/docs/swagger" // Generierte Docs importieren
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
@@ -59,7 +59,7 @@ type serverDeps struct {
 var runMain = run
 
 func buildMux(database *gorm.DB) *http.ServeMux {
-	// Initialize repositories
+	// Repositories initialisieren
 	userRepo := auth.NewUserRepository(database)
 	sessionRepo := auth.NewSessionRepository(database)
 	productRepo := products.NewProductRepository(database)
@@ -70,7 +70,7 @@ func buildMux(database *gorm.DB) *http.ServeMux {
 	orderItemRepo := orders.NewOrderItemRepository(database)
 	notificationRepo := notifications.NewNotificationRepository(database)
 
-	// Initialize services
+	// Services initialisieren
 	notificationService := notifications.NewNotificationService(notificationRepo)
 	authService := auth.NewAuthService(userRepo, sessionRepo, notificationService)
 	productService := products.NewProductService(productRepo, notificationService)
@@ -87,7 +87,7 @@ func buildMux(database *gorm.DB) *http.ServeMux {
 		notificationService,
 	)
 
-	// Initialize handlers
+	// Handler initialisieren
 	authHandler := auth.NewHandler(authService)
 	productHandler := products.NewHandler(productService)
 	inventoryHandler := inventory.NewHandler(inventoryService)
@@ -95,18 +95,18 @@ func buildMux(database *gorm.DB) *http.ServeMux {
 	orderHandler := orders.NewHandler(orderService)
 	notificationHandler := notifications.NewHandler(notificationService)
 
-	// Initialize middleware
+	// Middleware initialisieren
 	authMiddleware := middleware.NewAuthMiddleware(authService)
 
-	// Create router
+	// Router erstellen
 	mux := http.NewServeMux()
 
-	// Auth routes (public)
+	// Auth-Routen (öffentlich)
 	mux.HandleFunc("POST /auth/register", authHandler.Register)
 	mux.HandleFunc("POST /auth/login", authHandler.Login)
 	mux.Handle("POST /auth/logout", authMiddleware.Authenticate(http.HandlerFunc(authHandler.Logout)))
 
-	// Product routes (public read, admin write)
+	// Produkt-Routen (öffentlich lesen, Admin schreiben)
 	mux.HandleFunc("GET /products", productHandler.List)
 	mux.HandleFunc("GET /products/{id}", productHandler.Get)
 	mux.Handle("POST /products", authMiddleware.Authenticate(
@@ -116,28 +116,28 @@ func buildMux(database *gorm.DB) *http.ServeMux {
 	mux.Handle("DELETE /products/{id}", authMiddleware.Authenticate(
 		middleware.RequireAdmin(http.HandlerFunc(productHandler.Delete))))
 
-	// Inventory routes (authenticated read, admin write)
+	// Bestand-Routen (authentifiziert lesen, Admin schreiben)
 	mux.Handle("GET /inventory/{product_id}", authMiddleware.Authenticate(http.HandlerFunc(inventoryHandler.Get)))
 	mux.Handle("PATCH /inventory/{product_id}", authMiddleware.Authenticate(
 		middleware.RequireAdmin(http.HandlerFunc(inventoryHandler.Update))))
 
-	// Cart routes (authenticated)
+	// Warenkorb-Routen (authentifiziert)
 	mux.Handle("GET /cart", authMiddleware.Authenticate(http.HandlerFunc(cartHandler.Get)))
 	mux.Handle("POST /cart/items", authMiddleware.Authenticate(http.HandlerFunc(cartHandler.AddItem)))
 	mux.Handle("PUT /cart/items/{item_id}", authMiddleware.Authenticate(http.HandlerFunc(cartHandler.UpdateItem)))
 	mux.Handle("DELETE /cart/items/{item_id}", authMiddleware.Authenticate(http.HandlerFunc(cartHandler.RemoveItem)))
 	mux.Handle("DELETE /cart", authMiddleware.Authenticate(http.HandlerFunc(cartHandler.Clear)))
 
-	// Order routes (authenticated)
+	// Bestell-Routen (authentifiziert)
 	mux.Handle("POST /orders", authMiddleware.Authenticate(http.HandlerFunc(orderHandler.Create)))
 	mux.Handle("GET /orders", authMiddleware.Authenticate(http.HandlerFunc(orderHandler.List)))
 	mux.Handle("GET /orders/{id}", authMiddleware.Authenticate(http.HandlerFunc(orderHandler.Get)))
 
-	// Notification routes (authenticated)
+	// Benachrichtigungs-Routen (authentifiziert)
 	mux.Handle("GET /notifications", authMiddleware.Authenticate(http.HandlerFunc(notificationHandler.List)))
 	mux.Handle("PATCH /notifications/{id}/read", authMiddleware.Authenticate(http.HandlerFunc(notificationHandler.MarkAsRead)))
 
-	// Health check
+	// Gesundheitsprüfung
 	mux.HandleFunc("GET /health", healthCheck)
 
 	// Swagger UI

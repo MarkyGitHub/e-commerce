@@ -1,17 +1,17 @@
 # E-Commerce REST API
 
-A complete E-Commerce REST API built in Go following a layered architecture pattern (Handler → Service → Repository).
+Eine vollständige E-Commerce REST API, gebaut in Go und umgesetzt nach einem Layered-Architecture-Pattern (Handler → Service → Repository).
 
 ## Features
 
-- **User Authentication**: Registration, login, logout with session-based authentication
-- **Product Management**: CRUD operations for products (admin only for create/update/delete)
-- **Inventory Management**: Stock tracking and updates (admin only)
-- **Shopping Cart**: Add, update, remove items with inventory validation
-- **Order Processing**: Create orders from cart with transactional inventory decrement
-- **Notifications**: Order notifications for customers
+- **Benutzerauthentifizierung**: Registrierung, Login, Logout mit sitzungsbasierter Authentifizierung
+- **Produktverwaltung**: CRUD-Operationen für Produkte (nur Admin: erstellen/aktualisieren/löschen)
+- **Bestandsverwaltung (Inventory)**: Lagerbestände verfolgen und aktualisieren (nur Admin)
+- **Warenkorb**: Artikel hinzufügen, aktualisieren, entfernen – mit Bestandsvalidierung
+- **Bestellabwicklung**: Bestellungen aus dem Warenkorb erstellen, inkl. transaktionalem Bestandsabbau
+- **Benachrichtigungen**: Bestellbenachrichtigungen für Kund:innen
 
-## Architecture
+## Architektur
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -49,142 +49,143 @@ A complete E-Commerce REST API built in Go following a layered architecture patt
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Project Structure
+## Projektstruktur
 
 ```
 ├── cmd/
 │   └── server/
-│       └── main.go           # Application entry point
+│       └── main.go           # Anwendungseinstiegspunkt
 ├── configs/
-│   ├── local.env             # Local development settings
-│   ├── test.env              # Test environment settings
-│   └── prod.env              # Production settings
+│   ├── local.env             # Einstellungen für lokale Entwicklung
+│   ├── test.env              # Einstellungen für Testumgebung
+│   └── prod.env              # Produktionseinstellungen
 ├── internal/
-│   ├── auth/                 # Authentication module
-│   ├── cart/                 # Shopping cart module
-│   ├── config/               # Centralized configuration
-│   ├── db/                   # Database connection and migrations
-│   ├── inventory/            # Inventory management module
-│   ├── middleware/           # HTTP middleware (auth, roles)
-│   ├── notifications/        # Notifications module
-│   ├── orders/               # Order processing module
-│   ├── products/             # Product catalog module
-│   └── shared/               # Shared utilities
+│   ├── auth/                 # Authentifizierungsmodul
+│   ├── cart/                 # Warenkorb-Modul
+│   ├── config/               # Zentrale Konfiguration
+│   ├── db/                   # Datenbankverbindung und Migrationen
+│   ├── inventory/            # Bestandsverwaltungsmodul
+│   ├── middleware/           # HTTP-Middleware (Auth, Rollen)
+│   ├── notifications/        # Benachrichtigungsmodul
+│   ├── orders/               # Bestellabwicklungsmodul
+│   ├── products/             # Produktkatalog-Modul
+│   └── shared/               # Gemeinsame Utilities
 ├── docs/
-│   └── swagger/              # Swagger documentation
+│   └── swagger/              # Swagger-Dokumentation
 ├── go.mod
 ├── go.sum
-└── README.md
+└── readme.md
+└── installation.md
+
 ```
 
-## Prerequisites
+## Voraussetzungen
 
-- Go 1.21 or higher
-- PostgreSQL 14 or higher
+- Go 1.21 oder höher
+- PostgreSQL 14 oder höher
 
-## Configuration
+## Konfiguration
 
-The application uses environment variables for configuration. Config files are in `configs/` directory.
+Die Anwendung verwendet Umgebungsvariablen zur Konfiguration. Konfigurationsdateien befinden sich im Verzeichnis `configs/`.
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `APP_ENV` | local | Environment (`local`, `test`, `prod`) |
-| `DB_HOST` | localhost | PostgreSQL host |
-| `DB_PORT` | 5434 | PostgreSQL port |
-| `DB_USER` | postgres | PostgreSQL username |
-| `DB_PASSWORD` | example | PostgreSQL password |
-| `DB_NAME` | postgres | Database name |
-| `DB_SSLMODE` | disable | SSL mode (disable/require) |
-| `SERVER_PORT` | 8080 | Server port |
-| `SESSION_TTL_MINUTES` | 60 | Session token validity in minutes |
+| Variable | Default | Beschreibung |
+|----------|---------|--------------|
+| `APP_ENV` | local | Umgebung (`local`, `test`, `prod`) |
+| `DB_HOST` | localhost | PostgreSQL-Host |
+| `DB_PORT` | 5434 | PostgreSQL-Port |
+| `DB_USER` | postgres | PostgreSQL-Benutzername |
+| `DB_PASSWORD` | example | PostgreSQL-Passwort |
+| `DB_NAME` | postgres | Datenbankname |
+| `DB_SSLMODE` | disable | SSL-Modus (disable/require) |
+| `SERVER_PORT` | 8080 | Server-Port |
+| `SESSION_TTL_MINUTES` | 60 | Gültigkeitsdauer des Session-Tokens in Minuten |
 
-## Getting Started
+## Schnellstart
 
-1. **Clone the repository**:
+1. **Projekt öffnen**:
    ```bash
-   git clone <repository-url>
    cd E_Commerce_Plattform
    ```
 
-2. **Set up PostgreSQL database**:
+2. **Docker starten**:
    ```bash
-   createdb ecommerce
+   ocker-compose up -d
    ```
 
-3. **Install dependencies**:
+3. **Abhängigkeiten installieren**:
    ```bash
    go mod tidy
    ```
 
-4. **Run the server**:
+4. **Server starten**:
    ```bash
    go run cmd/server/main.go
    ```
 
-5. **The API is now available at** `http://localhost:8080`
+5. **Die API ist nun erreichbar unter** `http://localhost:8080`
 
-## API Endpoints
+## API-Endpunkte
 
-### Authentication
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/auth/register` | Register new user | Public |
-| POST | `/auth/login` | Login and get session token | Public |
-| POST | `/auth/logout` | Logout and invalidate session | Session |
+### Authentifizierung
+| Method | Endpoint | Beschreibung | Auth |
+|--------|----------|--------------|------|
+| POST | `/auth/register` | Neuen Benutzer registrieren | Public |
+| POST | `/auth/login` | Login und Session-Token erhalten | Public |
+| POST | `/auth/logout` | Logout und Session ungültig machen | Session |
 
-### Products
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/products` | List all products (paginated) | Public |
-| GET | `/products/{id}` | Get product by ID | Public |
-| POST | `/products` | Create product | Admin |
-| PUT | `/products/{id}` | Update product | Admin |
-| DELETE | `/products/{id}` | Delete product | Admin |
+### Produkte
+| Method | Endpoint | Beschreibung | Auth |
+|--------|----------|--------------|------|
+| GET | `/products` | Alle Produkte auflisten (paginiert) | Public |
+| GET | `/products/{id}` | Produkt per ID abrufen | Public |
+| POST | `/products` | Produkt erstellen | Admin |
+| PUT | `/products/{id}` | Produkt aktualisieren | Admin |
+| DELETE | `/products/{id}` | Produkt löschen | Admin |
 
-### Inventory
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/inventory/{product_id}` | Get inventory for product | Public |
-| PUT | `/inventory/{product_id}` | Update inventory quantity | Admin |
+### Inventory (Bestand)
+| Method | Endpoint | Beschreibung | Auth |
+|--------|----------|--------------|------|
+| GET | `/inventory/{product_id}` | Bestand für ein Produkt abrufen | Public |
+| PUT | `/inventory/{product_id}` | Bestandsmenge aktualisieren | Admin |
 
-### Cart
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/cart` | Get current user's cart | Customer |
-| POST | `/cart/items` | Add item to cart | Customer |
-| PUT | `/cart/items/{item_id}` | Update cart item quantity | Customer |
-| DELETE | `/cart/items/{item_id}` | Remove item from cart | Customer |
-| DELETE | `/cart` | Clear entire cart | Customer |
+### Warenkorb
+| Method | Endpoint | Beschreibung | Auth |
+|--------|----------|--------------|------|
+| GET | `/cart` | Warenkorb des aktuellen Benutzers abrufen | Customer |
+| POST | `/cart/items` | Artikel zum Warenkorb hinzufügen | Customer |
+| PUT | `/cart/items/{item_id}` | Menge eines Warenkorb-Artikels aktualisieren | Customer |
+| DELETE | `/cart/items/{item_id}` | Artikel aus dem Warenkorb entfernen | Customer |
+| DELETE | `/cart` | Gesamten Warenkorb leeren | Customer |
 
-### Orders
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/orders` | Create order from cart | Customer |
-| GET | `/orders` | List orders (user's own or all for admin) | Customer/Admin |
-| GET | `/orders/{id}` | Get order details | Customer/Admin |
+### Bestellungen
+| Method | Endpoint | Beschreibung | Auth |
+|--------|----------|--------------|------|
+| POST | `/orders` | Bestellung aus dem Warenkorb erstellen | Customer |
+| GET | `/orders` | Bestellungen auflisten (eigene oder alle für Admin) | Customer/Admin |
+| GET | `/orders/{id}` | Bestelldetails abrufen | Customer/Admin |
 
-### Notifications
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/notifications` | List user's notifications | Customer |
-| PUT | `/notifications/{id}/read` | Mark notification as read | Customer |
+### Benachrichtigungen
+| Method | Endpoint | Beschreibung | Auth |
+|--------|----------|--------------|------|
+| GET | `/notifications` | Benachrichtigungen des Benutzers auflisten | Customer |
+| PUT | `/notifications/{id}/read` | Benachrichtigung als gelesen markieren | Customer |
 
 ### Utility
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/health` | Health check | Public |
+| Method | Endpoint | Beschreibung | Auth |
+|--------|----------|--------------|------|
+| GET | `/health` | Health-Check | Public |
 
-## Authentication
+## Authentifizierung
 
-The API uses session-based authentication. After logging in, include the session token in all authenticated requests:
+Die API verwendet sitzungsbasierte Authentifizierung. Nach dem Login muss der Session-Token bei allen authentifizierten Requests mitgesendet werden:
 
 ```
 X-Session-Token: <your-session-token>
 ```
 
-## Example Usage
+## Beispielnutzung
 
-### Register a new user
+### Neuen Benutzer registrieren
 ```bash
 curl -X POST http://localhost:8080/auth/register \
   -H "Content-Type: application/json" \
@@ -198,12 +199,12 @@ curl -X POST http://localhost:8080/auth/login \
   -d '{"email":"user@example.com","password":"password123"}'
 ```
 
-### List products
+### Produkte auflisten
 ```bash
 curl http://localhost:8080/products
 ```
 
-### Add item to cart
+### Artikel zum Warenkorb hinzufügen
 ```bash
 curl -X POST http://localhost:8080/cart/items \
   -H "Content-Type: application/json" \
@@ -211,52 +212,52 @@ curl -X POST http://localhost:8080/cart/items \
   -d '{"product_id":"<product-uuid>","quantity":2}'
 ```
 
-### Create order
+### Bestellung erstellen
 ```bash
 curl -X POST http://localhost:8080/orders \
   -H "X-Session-Token: <your-token>"
 ```
 
-## Testing
+## Tests
 
-Run all tests:
+Alle Tests ausführen:
 ```bash
 go test ./... -v
 ```
 
-Run tests with coverage:
+Tests mit Coverage ausführen:
 ```bash
 go test ./... -cover
 ```
 
-Generate coverage report:
+Coverage-Report erzeugen:
 ```bash
 go test ./... -coverprofile=coverage.out
 go tool cover -html=coverage.out
 ```
 
-## Error Responses
+## Fehlerantworten
 
-All errors follow a consistent format:
+Alle Fehler folgen einem konsistenten Format:
 ```json
 {
   "error": "HTTP Status Text",
-  "message": "Detailed error message"
+  "message": "Detaillierte Fehlermeldung"
 }
 ```
 
-### HTTP Status Codes
-| Code | Meaning |
-|------|---------|
-| 200 | Success |
-| 201 | Created |
-| 400 | Bad Request (validation error) |
-| 401 | Unauthorized (missing/invalid token) |
-| 403 | Forbidden (insufficient permissions) |
+### HTTP-Statuscodes
+| Code | Bedeutung |
+|------|-----------|
+| 200 | Erfolgreich |
+| 201 | Erstellt |
+| 400 | Bad Request (Validierungsfehler) |
+| 401 | Unauthorized (fehlender/ungültiger Token) |
+| 403 | Forbidden (unzureichende Berechtigungen) |
 | 404 | Not Found |
-| 409 | Conflict (duplicate resource) |
+| 409 | Conflict (doppelte Ressource) |
 | 500 | Internal Server Error |
 
-## License
+## Lizenz
 
-This project is part of a coursework assignment.
+Dieses Projekt ist Teil der Kurs-Projektarbeit, Programmieren mit Go.

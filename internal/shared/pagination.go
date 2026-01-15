@@ -6,15 +6,15 @@ import (
 )
 
 const (
-	// DefaultPage is the default page number
+	// DefaultPage ist die Standard-Seitennummer
 	DefaultPage = 1
-	// DefaultLimit is the default number of items per page
+	// DefaultLimit ist die Standard-Anzahl pro Seite
 	DefaultLimit = 10
-	// MaxLimit is the maximum number of items per page
+	// MaxLimit ist die maximale Anzahl pro Seite
 	MaxLimit = 100
 )
 
-// ParsePagination extracts pagination parameters from the request
+// ParsePagination extrahiert Paginierungs-Parameter aus der Anfrage
 func ParsePagination(r *http.Request) (page, limit int) {
 	page = DefaultPage
 	limit = DefaultLimit
@@ -37,7 +37,7 @@ func ParsePagination(r *http.Request) (page, limit int) {
 	return page, limit
 }
 
-// CalculateOffset calculates the database offset from page and limit
+// CalculateOffset berechnet den Datenbank-Offset aus Seite und Limit
 func CalculateOffset(page, limit int) int {
 	return (page - 1) * limit
 }

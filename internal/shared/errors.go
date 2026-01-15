@@ -6,51 +6,51 @@ import (
 	"github.com/google/uuid"
 )
 
-// contextKey is a type for context keys
+// contextKey ist ein Typ für Kontext-Schlüssel
 type contextKey string
 
-// UserContextKey is the key used to store the user in the request context
-// Moved here to avoid import cycles
+// UserContextKey ist der Schlüssel zum Speichern des Benutzers im Request-Kontext
+// Hierher verschoben um Import-Zyklen zu vermeiden
 const UserContextKey contextKey = "user"
 
-// UserIDGetter is a minimal interface to extract user ID from context
-// This avoids import cycles when handlers need user ID
+// UserIDGetter ist minimales Interface zum Extrahieren der User ID aus Kontext
+// Vermeidet Import-Zyklen wenn Handler User ID benötigen
 type UserIDGetter interface {
 	GetID() uuid.UUID
 }
 
-// Common error types for the application
+// Allgemeine Fehlertypen für die Anwendung
 var (
-	// ErrNotFound is returned when a resource is not found
+	// ErrNotFound wenn Ressource nicht gefunden
 	ErrNotFound = errors.New("resource not found")
 
-	// ErrConflict is returned when there is a conflict (e.g., duplicate email)
+	// ErrConflict bei Konflikten (z.B. doppelte Email)
 	ErrConflict = errors.New("resource already exists")
 
-	// ErrUnauthorized is returned when authentication fails
+	// ErrUnauthorized wenn Authentifizierung fehlschlägt
 	ErrUnauthorized = errors.New("unauthorized")
 
-	// ErrForbidden is returned when the user lacks permission
+	// ErrForbidden wenn Benutzer keine Berechtigung hat
 	ErrForbidden = errors.New("forbidden")
 
-	// ErrBadRequest is returned when the request is invalid
+	// ErrBadRequest bei ungültiger Anfrage
 	ErrBadRequest = errors.New("bad request")
 
-	// ErrInvalidCredentials is returned when login credentials are invalid
+	// ErrInvalidCredentials bei ungültigen Anmeldedaten
 	ErrInvalidCredentials = errors.New("invalid credentials")
 
-	// ErrInvalidEmail is returned when email format is invalid
+	// ErrInvalidEmail bei ungültigem Email-Format
 	ErrInvalidEmail = errors.New("invalid email format")
 
-	// ErrPasswordTooShort is returned when password is too short
+	// ErrPasswordTooShort wenn Passwort zu kurz
 	ErrPasswordTooShort = errors.New("password must be at least 8 characters")
 
-	// ErrInsufficientInventory is returned when inventory is insufficient
+	// ErrInsufficientInventory bei unzureichendem Lagerbestand
 	ErrInsufficientInventory = errors.New("insufficient inventory")
 
-	// ErrEmptyCart is returned when trying to create an order from an empty cart
+	// ErrEmptyCart bei Bestellung aus leerem Warenkorb
 	ErrEmptyCart = errors.New("cart is empty")
 
-	// ErrNegativeQuantity is returned when quantity would become negative
+	// ErrNegativeQuantity wenn Menge negativ wird
 	ErrNegativeQuantity = errors.New("quantity cannot be negative")
 )

@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Order represents a customer order
+// Order repräsentiert eine Kundenbestellung
 type Order struct {
 	ID              uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	UserID          uuid.UUID `gorm:"type:uuid;not null;index" json:"user_id"`
@@ -20,7 +20,7 @@ type Order struct {
 	UpdatedAt       time.Time `json:"updated_at"`
 }
 
-// OrderItem represents an item in an order
+// OrderItem repräsentiert einen Artikel in einer Bestellung
 type OrderItem struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	OrderID   uuid.UUID `gorm:"type:uuid;not null;index" json:"order_id"`
@@ -30,7 +30,7 @@ type OrderItem struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// Order status constants
+// Bestellstatus-Konstanten
 const (
 	StatusPending    = "pending"
 	StatusProcessing = "processing"
@@ -38,7 +38,7 @@ const (
 	StatusCancelled  = "cancelled"
 )
 
-// OrderResponse represents an order in API responses
+// OrderResponse repräsentiert eine Bestellung in API-Antworten
 type OrderResponse struct {
 	ID              uuid.UUID           `json:"id"`
 	UserID          uuid.UUID           `json:"user_id"`
@@ -53,7 +53,7 @@ type OrderResponse struct {
 	UpdatedAt       time.Time           `json:"updated_at"`
 }
 
-// OrderItemResponse represents an order item in API responses
+// OrderItemResponse repräsentiert einen Bestellartikel in API-Antworten
 type OrderItemResponse struct {
 	ID        uuid.UUID `json:"id"`
 	ProductID uuid.UUID `json:"product_id"`
@@ -62,7 +62,7 @@ type OrderItemResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// ToResponse converts an Order to OrderResponse
+// ToResponse konvertiert eine Order zu OrderResponse
 func (o *Order) ToResponse() OrderResponse {
 	return OrderResponse{
 		ID:              o.ID,
@@ -78,7 +78,7 @@ func (o *Order) ToResponse() OrderResponse {
 	}
 }
 
-// ToResponse converts an OrderItem to OrderItemResponse
+// ToResponse konvertiert ein OrderItem zu OrderItemResponse
 func (oi *OrderItem) ToResponse() OrderItemResponse {
 	return OrderItemResponse{
 		ID:        oi.ID,
@@ -89,7 +89,7 @@ func (oi *OrderItem) ToResponse() OrderItemResponse {
 	}
 }
 
-// ToOrderResponseWithItems converts an Order and its items to OrderResponse
+// ToOrderResponseWithItems konvertiert eine Order und ihre Artikel zu OrderResponse
 func ToOrderResponseWithItems(order *Order, items []OrderItem) OrderResponse {
 	response := order.ToResponse()
 	response.Items = make([]OrderItemResponse, len(items))

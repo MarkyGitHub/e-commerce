@@ -18,13 +18,13 @@ var openPostgres = func(dsn string) (*gorm.DB, error) {
 	})
 }
 
-// SetupTestDB creates a test database connection
-// Callers must run migrations themselves to avoid import cycles
-// By default, this uses an in-memory SQLite database so tests run without external dependencies.
-// To run tests against Postgres instead, set TEST_DB_DIALECT=postgres and provide DB_* env vars.
+// SetupTestDB erstellt eine Test-Datenbankverbindung
+// Aufrufer müssen Migrationen selbst ausführen um Import-Zyklen zu vermeiden
+// Standardmäßig wird eine In-Memory SQLite-Datenbank verwendet, so dass Tests ohne externe Abhängigkeiten laufen.
+// Für Tests gegen Postgres setze TEST_DB_DIALECT=postgres und DB_*-Umgebungsvariablen.
 func SetupTestDB(t *testing.T) *gorm.DB {
 	if os.Getenv("TEST_DB_DIALECT") != "postgres" {
-		// Unique in-memory DB per test to avoid cross-test interference.
+		// Eindeutige In-Memory-DB pro Test um Testübergreifende Störungen zu vermeiden.
 		dsn := fmt.Sprintf("file:ecommerce_test_%d?mode=memory&cache=shared", time.Now().UnixNano())
 		gormDB, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Silent),
@@ -32,7 +32,7 @@ func SetupTestDB(t *testing.T) *gorm.DB {
 		if err != nil {
 			t.Fatalf("Failed to open sqlite test database: %v", err)
 		}
-		// Ensure foreign key constraints are enforced.
+		// Fremdschlüssel-Constraints aktivieren.
 		gormDB.Exec("PRAGMA foreign_keys = ON")
 
 		t.Cleanup(func() {
@@ -44,7 +44,7 @@ func SetupTestDB(t *testing.T) *gorm.DB {
 		return gormDB
 	}
 
-	// Use test database configuration (duplicated here to avoid import cycle)
+	// Test-Datenbankkonfiguration verwenden (hier dupliziert um Import-Zyklus zu vermeiden)
 	host := getEnv("DB_HOST", "localhost")
 	port := getEnv("DB_PORT", "5432")
 	user := getEnv("DB_USER", "ecommerce")
@@ -59,14 +59,14 @@ func SetupTestDB(t *testing.T) *gorm.DB {
 
 	gormDB, err := openPostgres(dsn)
 	if err != nil {
-		// Skip test if database is not available (e.g., not running)
+		// Test überspringen falls Datenbank nicht verfügbar (z.B. nicht gestartet)
 		t.Skipf("Skipping test: database not available: %v", err)
 		return nil
 	}
 
-	// Clean up after test
+	// Nach Test aufräumen
 	t.Cleanup(func() {
-		// Clean up all tables
+		// Alle Tabellen bereinigen
 		gormDB.Exec("TRUNCATE TABLE users, sessions, products, inventory, carts, cart_items, orders, order_items, notifications RESTART IDENTITY CASCADE")
 		sqlDB, _ := gormDB.DB()
 		if sqlDB != nil {

@@ -8,7 +8,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/notifications"
 )
 
-// ProductService defines the interface for product business logic
+// ProductService definiert Interface für Produkt-Geschäftslogik
 type ProductService interface {
 	CreateProduct(ctx context.Context, req CreateProductRequest, userID uuid.UUID) (*Product, error)
 	GetProduct(ctx context.Context, id uuid.UUID) (*Product, error)
@@ -17,13 +17,13 @@ type ProductService interface {
 	DeleteProduct(ctx context.Context, id uuid.UUID) error
 }
 
-// productService implements ProductService
+// productService implementiert ProductService
 type productService struct {
 	repo                ProductRepository
 	notificationService notifications.NotificationService
 }
 
-// NewProductService creates a new ProductService
+// NewProductService erstellt einen neuen ProductService
 func NewProductService(repo ProductRepository, notificationService notifications.NotificationService) ProductService {
 	return &productService{
 		repo:                repo,
@@ -49,11 +49,11 @@ func (s *productService) CreateProduct(ctx context.Context, req CreateProductReq
 		return nil, err
 	}
 
-	// Create notification for product creation
+	// Benachrichtigung für Produkterstellung erstellen
 	title := "Product Created"
 	message := "Product created successfully."
 	if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-		// Log error but don't fail product creation
+		// Fehler loggen, aber Produkterstellung nicht abbrechen
 	}
 
 	return product, nil
@@ -74,7 +74,7 @@ func (s *productService) UpdateProduct(ctx context.Context, id uuid.UUID, req Up
 		return nil, err
 	}
 
-	// Update fields if provided
+	// Felder aktualisieren falls angegeben
 	if req.Name != nil {
 		if *req.Name == "" {
 			return nil, ErrInvalidProductName

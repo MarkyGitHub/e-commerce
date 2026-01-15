@@ -8,19 +8,19 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// UserContextKey is imported from shared to avoid import cycles
+// UserContextKey ist aus shared importiert um Import-Zyklen zu vermeiden
 
-// AuthMiddleware handles authentication for protected endpoints
+// AuthMiddleware verarbeitet Authentifizierung für geschützte Endpunkte
 type AuthMiddleware struct {
 	authService auth.AuthService
 }
 
-// NewAuthMiddleware creates a new AuthMiddleware
+// NewAuthMiddleware erstellt eine neue AuthMiddleware
 func NewAuthMiddleware(authService auth.AuthService) *AuthMiddleware {
 	return &AuthMiddleware{authService: authService}
 }
 
-// Authenticate validates the session token and attaches the user to the context
+// Authenticate validiert Session-Token und hängt Benutzer an Kontext
 func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("X-Session-Token")
@@ -35,13 +35,13 @@ func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 			return
 		}
 
-		// Attach user to context
+		// Benutzer an Kontext anhängen
 		ctx := context.WithValue(r.Context(), shared.UserContextKey, user)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
-// GetUserFromContext retrieves the user from the request context
+// GetUserFromContext holt den Benutzer aus dem Request-Kontext
 func GetUserFromContext(ctx context.Context) (*auth.User, bool) {
 	user, ok := ctx.Value(shared.UserContextKey).(*auth.User)
 	return user, ok

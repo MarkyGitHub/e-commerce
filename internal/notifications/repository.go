@@ -10,7 +10,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// NotificationRepository defines the interface for notification data access
+// NotificationRepository definiert Interface für Benachrichtigungs-Datenzugriff
 type NotificationRepository interface {
 	Create(ctx context.Context, notification *Notification) error
 	CreateTx(ctx context.Context, tx *gorm.DB, notification *Notification) error
@@ -19,12 +19,12 @@ type NotificationRepository interface {
 	MarkAsRead(ctx context.Context, id uuid.UUID) error
 }
 
-// notificationRepository implements NotificationRepository using GORM
+// notificationRepository implementiert NotificationRepository mit GORM
 type notificationRepository struct {
 	db *gorm.DB
 }
 
-// NewNotificationRepository creates a new NotificationRepository
+// NewNotificationRepository erstellt ein neues NotificationRepository
 func NewNotificationRepository(db *gorm.DB) NotificationRepository {
 	return &notificationRepository{db: db}
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// NotificationService defines the interface for notification business logic
+// NotificationService definiert Interface für Benachrichtigungs-Geschäftslogik
 type NotificationService interface {
 	CreateNotification(ctx context.Context, userID uuid.UUID, title, message string) (*Notification, error)
 	CreateNotificationTx(ctx context.Context, tx *gorm.DB, userID uuid.UUID, title, message string) (*Notification, error)
@@ -17,12 +17,12 @@ type NotificationService interface {
 	MarkAsRead(ctx context.Context, userID uuid.UUID, notificationID uuid.UUID) error
 }
 
-// notificationService implements NotificationService
+// notificationService implementiert NotificationService
 type notificationService struct {
 	repo NotificationRepository
 }
 
-// NewNotificationService creates a new NotificationService
+// NewNotificationService erstellt einen neuen NotificationService
 func NewNotificationService(repo NotificationRepository) NotificationService {
 	return &notificationService{repo: repo}
 }
@@ -64,7 +64,7 @@ func (s *notificationService) GetNotifications(ctx context.Context, userID uuid.
 }
 
 func (s *notificationService) MarkAsRead(ctx context.Context, userID uuid.UUID, notificationID uuid.UUID) error {
-	// Get notification and verify ownership
+	// Benachrichtigung holen und Eigentümerschaft prüfen
 	notification, err := s.repo.FindByID(ctx, notificationID)
 	if err != nil {
 		return err

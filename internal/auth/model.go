@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// User represents a registered user in the system
+// User repräsentiert einen registrierten Benutzer
 type User struct {
 	ID           uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	Username     string    `gorm:"not null" json:"username"`
@@ -17,7 +17,7 @@ type User struct {
 	UpdatedAt    time.Time `json:"updated_at"`
 }
 
-// Session represents an authenticated user session
+// Session repräsentiert eine authentifizierte Benutzersitzung
 type Session struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	UserID    uuid.UUID `gorm:"type:uuid;not null;index" json:"user_id"`
@@ -26,27 +26,27 @@ type Session struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// RegisterRequest represents the registration request body
+// RegisterRequest repräsentiert die Registrierungsanfrage
 type RegisterRequest struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// LoginRequest represents the login request body
+// LoginRequest repräsentiert die Login-Anfrage
 type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// LoginResponse represents the login response
+// LoginResponse repräsentiert die Login-Antwort
 type LoginResponse struct {
 	SessionToken string    `json:"session_token"`
 	ExpiresAt    time.Time `json:"expires_at"`
 	User         User      `json:"user"`
 }
 
-// UserResponse represents a user in API responses
+// UserResponse repräsentiert einen Benutzer in API-Antworten
 type UserResponse struct {
 	ID        uuid.UUID `json:"id"`
 	Username  string    `json:"username"`
@@ -55,7 +55,7 @@ type UserResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// ToResponse converts a User to UserResponse
+// ToResponse konvertiert User zu UserResponse
 func (u *User) ToResponse() UserResponse {
 	return UserResponse{
 		ID:        u.ID,
@@ -66,12 +66,12 @@ func (u *User) ToResponse() UserResponse {
 	}
 }
 
-// IsAdmin returns true if the user has admin role
+// IsAdmin gibt true zurück wenn Benutzer Admin ist
 func (u *User) IsAdmin() bool {
 	return u.Role == "admin"
 }
 
-// GetID returns the user's ID (implements shared.UserIDGetter interface)
+// GetID gibt die Benutzer-ID zurück (implementiert shared.UserIDGetter)
 func (u *User) GetID() uuid.UUID {
 	return u.ID
 }

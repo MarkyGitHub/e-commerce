@@ -1,78 +1,76 @@
-# Installation & Configuration Guide
+# Installations- & Konfigurationsleitfaden
 
-This document provides detailed instructions for installing, configuring, and running the E-Commerce REST API application.
+Dieses Dokument enthält Anleitungen zum Installieren, Konfigurieren und Ausführen der E-Commerce REST API.
 
-## Table of Contents
+## Inhaltsverzeichnis
 
-- [Prerequisites](#prerequisites)
-- [Quick Start with Docker](#quick-start-with-docker)
-- [Manual Installation](#manual-installation)
-- [Configuration Reference](#configuration-reference)
-- [Running the Application](#running-the-application)
-- [Verifying the Installation](#verifying-the-installation)
-- [Swagger API Documentation](#swagger-api-documentation)
-- [Running Tests](#running-tests)
-- [Troubleshooting](#troubleshooting)
+- [Voraussetzungen](#voraussetzungen)
+- [Schnellstart mit Docker](#schnellstart-mit-docker)
+- [Konfigurationsreferenz](#konfigurationsreferenz)
+- [Anwendung ausführen](#anwendung-ausführen)
+- [Installation überprüfen](#installation-überprüfen)
+- [Swagger API-Dokumentation](#swagger-api-dokumentation)
+- [Tests ausführen](#tests-ausführen)
+- [Fehlerbehebung](#fehlerbehebung)
 
 ---
 
-## Prerequisites
+## Voraussetzungen
 
-### Required Software
+### Benötigte Software
 
-| Software | Minimum Version | Download Link |
+| Software | Mindestversion | Download-Link |
 |----------|-----------------|---------------|
 | Go | 1.21+ | [golang.org/dl](https://golang.org/dl/) |
 | Docker | 20.10+ | [docker.com](https://www.docker.com/get-started) |
-| Docker Compose | 2.x | Included with Docker Desktop |
-| Git | 2.x | [git-scm.com](https://git-scm.com/) |
+| Docker Compose | 2.x | In Docker Desktop enthalten |
 
-### Verify Prerequisites
+### Voraussetzungen prüfen
 
 ```bash
-# Check Go version
+# Check version
 go version
 
-# Check Docker version
+# Check version
 docker --version
 docker-compose --version
 ```
 
 ---
 
-## Quick Start with Docker
+## Schnellstart mit Docker
 
-The fastest way to get the database running is using Docker Compose.
+Der schnellste Weg, die Datenbank zu starten, ist Docker Compose.
 
-### Step 1: Start PostgreSQL Container
+### Schritt 1: PostgreSQL-Container starten
 
 ```bash
-# Navigate to the project directory
+# Navigate to the project
 cd E_Commerce_Plattform
 
-# Start PostgreSQL container
+# Start docker container
 docker-compose up -d
 ```
 
-This will start a PostgreSQL container with the following configuration:
-- **Container Name:** `e-commerce-db`
+Dadurch wird ein PostgreSQL Container mit folgender Konfiguration gestartet:
+- **Container-Name:** `e-commerce-db`
 - **User:** `postgres`
-- **Password:** `example`
-- **Database:** `postgres`
-- **Port:** `5434` (external) → `5432` (internal)
-- **Adminer (DB admin UI):** `http://localhost:8083`
+- **Passwort:** `example`
+- **Datenbank:** `postgres`
+- **Port:** `5434` (extern) → `5432` (intern)
+- **Adminer (DB-Verwaltung):** `http://localhost:8083`
 
-### Step 2: Verify Database is Running
+### Schritt 2: Prüfen, ob die Datenbank läuft
 
 ```bash
-# Check container status
+# Check status
 docker ps
 
-# View container logs
+# View logs
 docker logs e-commerce-db
 ```
 
-### Step 3: Run the Application
+### Schritt 3: Anwendung starten
 
 ```bash
 # Install dependencies
@@ -82,7 +80,7 @@ go mod tidy
 go run cmd/server/main.go
 ```
 
-### Stop the Database
+### Datenbank stoppen
 
 ```bash
 # Stop and remove container (preserves data)
@@ -94,98 +92,57 @@ docker-compose down -v
 
 ---
 
-## Manual Installation
+## Konfigurationsreferenz
 
-### Step 1: Clone and Setup Project
+### Umgebungsvariablen
 
-```bash
-# Clone the repository
-git clone <repository-url>
-cd E_Commerce_Plattform
+| Variable | Default | Beschreibung |
+|----------|---------|--------------|
+| `APP_ENV` | `local` | Anwendungskontext (`local`, `test`, `prod`) |
+| `DB_HOST` | `localhost` | Hostname des PostgreSQL-Servers |
+| `DB_PORT` | `5434` | Port des PostgreSQL-Servers |
+| `DB_USER` | `postgres` | Datenbank-Benutzername |
+| `DB_PASSWORD` | `example` | Datenbank-Passwort |
+| `DB_NAME` | `postgres` | Datenbankname |
+| `DB_SSLMODE` | `disable` | SSL-Modus (`disable`, `require`, `verify-full`) |
+| `SERVER_PORT` | `8080` | HTTP-Server-Port |
+| `SESSION_TTL_MINUTES` | `60` | Gültigkeitsdauer des Session-Tokens in Minuten |
 
-# Download Go dependencies
-go mod tidy
-```
+### Konfigurationsdateien
 
-### Step 2: Configure Environment
+Im Verzeichnis `configs/` liegen vorkonfigurierte Environment-Dateien:
 
-Create a `.env` file in the project root or set environment variables:
-
-```bash
-# Option 1: Create .env file
-cp configs/local.env .env
-
-# Option 2: Export environment variables (Linux/macOS)
-export DB_HOST=localhost
-export DB_PORT=5434
-export DB_USER=postgres
-export DB_PASSWORD=example
-export DB_NAME=postgres
-export SERVER_PORT=8080
-
-# Option 2: Set environment variables (Windows PowerShell)
-$env:DB_HOST="localhost"
-$env:DB_PORT="5434"
-$env:DB_USER="postgres"
-$env:DB_PASSWORD="example"
-$env:DB_NAME="postgres"
-$env:SERVER_PORT="8080"
-$env:PORT="8080"
-```
-
----
-
-## Configuration Reference
-
-### Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `APP_ENV` | `local` | Application environment (`local`, `test`, `prod`) |
-| `DB_HOST` | `localhost` | PostgreSQL server hostname |
-| `DB_PORT` | `5434` | PostgreSQL server port |
-| `DB_USER` | `postgres` | Database username |
-| `DB_PASSWORD` | `example` | Database password |
-| `DB_NAME` | `postgres` | Database name |
-| `DB_SSLMODE` | `disable` | SSL mode (`disable`, `require`, `verify-full`) |
-| `SERVER_PORT` | `8080` | HTTP server port |
-| `SESSION_TTL_MINUTES` | `60` | Session token validity duration in minutes |
-
-### Configuration Files
-
-The project includes pre-configured environment files in the `configs/` directory:
-
-| File | Purpose |
+| Datei | Zweck |
 |------|---------|
-| `configs/local.env` | Local development settings |
-| `configs/test.env` | Test environment settings |
-| `configs/prod.env` | Production settings (customize as needed) |
+| `configs/local.env` | Einstellungen für lokale Entwicklung |
+| `configs/test.env` | Einstellungen für Testumgebung |
+| `configs/prod.env` | Produktionseinstellungen (bei Bedarf anpassen) |
 
-### Loading Configuration Files
+### Konfigurationsdateien laden
 
 ```bash
-# Linux/macOS (bash/zsh) - Load from config file
+# Linux/macOS (bash/zsh) - Config-Datei laden
 source configs/local.env
 
-# Windows PowerShell - Load from config file
+# Windows PowerShell - Config-Datei laden
 Get-Content configs\local.env | ForEach-Object {
     if ($_ -match '^([^=]+)=(.*)$') {
         [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
     }
 }
 
-# Windows CMD - Load from config file (current cmd session)
+# Windows CMD - Config-Datei laden (aktuelle cmd-Session)
 for /f "usebackq tokens=1,* delims==" %A in ("configs\local.env") do set %A=%B
 ```
 
 ---
 
-## Running the Application
+## Anwendung ausführen
 
-### Development Mode
+### Entwicklungsmodus
 
 ```bash
-# Standard run
+# run
 go run cmd/server/main.go
 
 # With custom port (Linux/macOS)
@@ -198,7 +155,7 @@ $env:PORT="3000"; go run cmd/server/main.go
 set PORT=3000 && go run cmd/server/main.go
 ```
 
-### Building and Running Binary
+### Binary bauen und ausführen
 
 ```bash
 # Build the application
@@ -211,10 +168,10 @@ go build -o server.exe cmd/server/main.go
 ./server.exe
 ```
 
-### Using Pre-configured Environments
+### Vorkonfigurierte Umgebungen verwenden
 
 ```bash
-# Local development (Linux/macOS)
+# Local environment (Linux/macOS)
 source configs/local.env && go run cmd/server/main.go
 
 # Test environment (Linux/macOS)
@@ -230,11 +187,11 @@ go run cmd/server/main.go
 
 ---
 
-## Verifying the Installation
+## Installation überprüfen
 
-### Step 1: Health Check
+### Schritt 1: Health-Check
 
-Once the server is running, verify it's working:
+Wenn der Server läuft, kannst geprüft werden, ob alles funktioniert:
 
 ```bash
 # Using curl
@@ -244,12 +201,12 @@ curl http://localhost:8080/health
 Invoke-RestMethod -Uri "http://localhost:8080/health"
 ```
 
-Expected response:
+Erwartete Antwort:
 ```json
 {"status":"healthy"}
 ```
 
-### Step 2: Test Registration
+### Schritt 2: Registrierung testen
 
 ```bash
 # Using curl
@@ -270,7 +227,7 @@ Invoke-RestMethod -Uri "http://localhost:8080/auth/register" `
   -Body $body
 ```
 
-### Step 3: Test Login
+### Schritt 3: Login testen
 
 ```bash
 # Using curl
@@ -292,31 +249,29 @@ Invoke-RestMethod -Uri "http://localhost:8080/auth/login" `
 
 ---
 
-## Swagger API Documentation
+## Swagger API-Dokumentation
 
-The API includes interactive Swagger documentation.
+Die API enthält eine interaktive Swagger-Dokumentation.
 
-### Accessing Swagger UI
+### Swagger UI öffnen
 
-Once the server is running, open your browser and navigate to:
+Wenn der Server läuft, öffne im Browser:
 
 ```
 http://localhost:8080/swagger/index.html
 ```
 
-### Swagger Features
+### Swagger-Funktionen
 
-- **Interactive API explorer** - Test endpoints directly in the browser
-- **Request/Response schemas** - View expected data formats
-- **Authentication** - Use the "Authorize" button to add your session token
-- **Try it out** - Execute API calls and see responses
+- **Interaktiver API-Explorer** – Endpunkte direkt im Browser testen
+- **Request/Response-Schemas** – Erwartete Datenformate einsehen
+- **Authentifizierung** – Über "Authorize" den Session-Token setzen
+- **Try it out** – API-Calls ausführen und Responses ansehen
 
-### Regenerating Swagger Docs
-
-If you modify API endpoints, regenerate the documentation:
+### Swagger-Dokumentation neu generieren
 
 ```bash
-# Install swag CLI (if not installed)
+# Install swag CLI
 go install github.com/swaggo/swag/cmd/swag@latest
 
 # Generate documentation
@@ -325,15 +280,15 @@ swag init -g cmd/server/main.go -o docs/swagger
 
 ---
 
-## Running Tests
+## Tests ausführen
 
-### Run All Tests
+### Alle Tests ausführen
 
 ```bash
 go test ./... -v
 ```
 
-### Run Tests with Coverage
+### Tests mit Coverage ausführen
 
 ```bash
 # Generate coverage report
@@ -346,7 +301,7 @@ go tool cover -func=coverage.out
 go tool cover -html=coverage.out
 ```
 
-### Run Tests for Specific Package
+### Tests für ein bestimmtes Package ausführen
 
 ```bash
 # Test auth package
@@ -359,33 +314,33 @@ go test ./internal/products/... -v
 go test ./... -race -v
 ```
 
-### Test Database Setup
+### Testdatenbank einrichten
 
-For running tests, create a separate test database using Docker:
+Für Tests empfiehlt sich eine separate Testdatenbank via Docker:
 
 ```bash
-# Connect to the Docker PostgreSQL container and create test database
+# Connect to the Docker container and create test database
 docker exec -it e-commerce-db psql -U postgres -c "CREATE DATABASE postgres_test;"
 ```
 
 ---
 
-## Troubleshooting
+## Fehlerbehebung
 
-### Common Issues
+### Häufige Probleme
 
-#### 1. Database Connection Failed
+#### 1. Datenbankverbindung fehlgeschlagen
 
-**Error:** `failed to connect to database: connection refused`
+**Fehler:** `failed to connect to database: connection refused`
 
-**Solutions:**
-- Verify PostgreSQL container is running: `docker ps`
-- Check database credentials in environment variables
-- Ensure the database port is not blocked by firewall
-- Restart the container: `docker-compose restart`
+**Lösungen:**
+- Prüfe, ob der PostgreSQL-Container läuft: `docker ps`
+- Prüfe die Datenbank-Credentials in den Umgebungsvariablen
+- Stelle sicher, dass der DB-Port nicht durch eine Firewall blockiert wird
+- Container neu starten: `docker-compose restart`
 
 ```bash
-# Check if PostgreSQL container is running
+# Check if PostgreSQL is running
 docker ps | grep e-commerce-db
 
 # Test connection via Docker
@@ -396,13 +351,13 @@ docker exec -it e-commerce-db psql -U postgres -c "SELECT 1;"
 # System: PostgreSQL, Server: db, User: postgres, Password: example
 ```
 
-#### 2. Port Already in Use
+#### 2. Port bereits belegt
 
-**Error:** `listen tcp :8080: bind: address already in use`
+**Fehler:** `listen tcp :8080: bind: address already in use`
 
-**Solutions:**
-- Use a different port: `PORT=3000 go run cmd/server/main.go`
-- Find and stop the process using the port:
+**Lösungen:**
+- Anderen Port verwenden: `PORT=3000 go run cmd/server/main.go`
+- Prozess finden und stoppen, der den Port belegt:
 
 ```bash
 # Linux/macOS
@@ -414,11 +369,11 @@ netstat -ano | findstr :8080
 taskkill /PID <PID> /F
 ```
 
-#### 3. Missing Go Modules
+#### 3. Fehlende Go-Module
 
-**Error:** `cannot find package`
+**Fehler:** `cannot find package`
 
-**Solution:**
+**Lösung:**
 ```bash
 go mod tidy
 go mod download
@@ -426,16 +381,16 @@ go mod download
 
 #### 4. Permission Denied (Linux/macOS)
 
-**Error:** `permission denied`
+**Fehler:** `permission denied`
 
-**Solution:**
+**Lösung:**
 ```bash
 chmod +x server.exe
 ```
 
-#### 5. Docker Container Won't Start
+#### 5. Docker-Container startet nicht
 
-**Solutions:**
+**Lösungen:**
 ```bash
 # Check container logs
 docker logs e-commerce-db
@@ -445,9 +400,9 @@ docker-compose down -v
 docker-compose up -d
 ```
 
-### Logging and Debugging
+### Logging und Debugging
 
-The application logs to stdout. To capture logs:
+Die Anwendung loggt nach stdout. Um Logs zu speichern:
 
 ```bash
 # Redirect to file
@@ -457,38 +412,13 @@ go run cmd/server/main.go > server.log 2>&1
 go run cmd/server/main.go 2>&1 | tee server.log
 ```
 
-### Getting Help
+### Hilfe bekommen
 
-If you encounter issues not covered here:
+Wenn du auf Probleme stößt, die hier nicht beschrieben sind:
 
-1. Check the [README.md](README.md) for additional information
-2. Review the API specification in `Projektarbeit_ E-Commerce REST-API.pdf`
-3. Examine the Swagger documentation at `/swagger/index.html`
-
----
-
-## Next Steps
-
-After successful installation:
-
-1. **Explore the API** - Visit Swagger UI at `http://localhost:8080/swagger/index.html`
-2. **Create an Admin User** - Register a user and manually update their role to `admin` in the database
-3. **Add Products** - Use admin credentials to create products via `POST /products`
-4. **Test the Flow** - Register as customer, add items to cart, and create an order
-
-### Creating an Admin User
-
-```bash
-# Connect to the Docker PostgreSQL container
-docker exec -it e-commerce-db psql -U ecommerce -d ecommerce
-
-# Run the SQL command to update user role
-UPDATE users SET role = 'admin' WHERE email = 'your-email@example.com';
-
-# Exit psql
-\q
-```
+1. Sieh in der [README.md](README.md) nach weiteren Informationen
+2. Prüfe die API-Spezifikation in `Projektarbeit_ E-Commerce REST-API.pdf`
+3. Öffne die Swagger-Dokumentation unter `/swagger/index.html`
 
 ---
 
-*Last updated: January 2026*

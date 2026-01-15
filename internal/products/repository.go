@@ -10,7 +10,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// ProductRepository defines the interface for product data access
+// ProductRepository definiert Interface für Produkt-Datenzugriff
 type ProductRepository interface {
 	Create(ctx context.Context, product *Product) error
 	FindByID(ctx context.Context, id uuid.UUID) (*Product, error)
@@ -19,12 +19,12 @@ type ProductRepository interface {
 	Delete(ctx context.Context, id uuid.UUID) error
 }
 
-// productRepository implements ProductRepository using GORM
+// productRepository implementiert ProductRepository mit GORM
 type productRepository struct {
 	db *gorm.DB
 }
 
-// NewProductRepository creates a new ProductRepository
+// NewProductRepository erstellt ein neues ProductRepository
 func NewProductRepository(db *gorm.DB) ProductRepository {
 	return &productRepository{db: db}
 }
@@ -54,17 +54,17 @@ func (r *productRepository) FindAll(ctx context.Context, offset, limit int, cate
 
 	query := r.db.WithContext(ctx).Model(&Product{}).Where("is_active = ?", true)
 
-	// Filter by category if provided
+	// Nach Kategorie filtern falls angegeben
 	if categoryID != nil {
 		query = query.Where("category_id = ?", *categoryID)
 	}
 
-	// Get total count
+	// Gesamtzahl ermitteln
 	if err := query.Count(&totalCount).Error; err != nil {
 		return nil, 0, err
 	}
 
-	// Get paginated results
+	// Paginierte Ergebnisse holen
 	result := query.
 		Offset(offset).
 		Limit(limit).

@@ -9,12 +9,12 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-// Connect establishes a connection to the PostgreSQL database using DBConfig
+// Connect stellt eine Verbindung zur PostgreSQL-Datenbank her
 func Connect(cfg config.DBConfig) (*gorm.DB, error) {
 	return connect(postgres.Open(cfg.DSN()))
 }
 
-// ConnectWithDSN establishes a connection using a DSN string directly
+// ConnectWithDSN stellt eine Verbindung mit DSN-String her
 func ConnectWithDSN(dsn string) (*gorm.DB, error) {
 	return connect(postgres.Open(dsn))
 }

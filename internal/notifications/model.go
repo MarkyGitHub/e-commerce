@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Notification represents a notification message for a user
+// Notification repräsentiert eine Benachrichtigung für einen Benutzer
 type Notification struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	UserID    uuid.UUID `gorm:"type:uuid;not null;index" json:"user_id"`
@@ -16,7 +16,7 @@ type Notification struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// NotificationResponse represents a notification in API responses
+// NotificationResponse repräsentiert eine Benachrichtigung in API-Antworten
 type NotificationResponse struct {
 	ID        uuid.UUID `json:"id"`
 	Title     string    `json:"title"`
@@ -25,7 +25,7 @@ type NotificationResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// ToResponse converts a Notification to NotificationResponse
+// ToResponse konvertiert eine Notification zu NotificationResponse
 func (n *Notification) ToResponse() NotificationResponse {
 	return NotificationResponse{
 		ID:        n.ID,
@@ -36,7 +36,7 @@ func (n *Notification) ToResponse() NotificationResponse {
 	}
 }
 
-// ToResponseList converts a slice of Notifications to NotificationResponses
+// ToResponseList konvertiert eine Liste von Notifications zu NotificationResponses
 func ToResponseList(notifications []Notification) []NotificationResponse {
 	responses := make([]NotificationResponse, len(notifications))
 	for i, n := range notifications {

@@ -10,12 +10,12 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// Handler handles product HTTP requests
+// Handler verarbeitet Produkt-HTTP-Anfragen
 type Handler struct {
 	service ProductService
 }
 
-// NewHandler creates a new product handler
+// NewHandler erstellt einen neuen Produkt-Handler
 func NewHandler(service ProductService) *Handler {
 	return &Handler{service: service}
 }
@@ -34,7 +34,7 @@ func NewHandler(service ProductService) *Handler {
 func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 	page, limit := shared.ParsePagination(r)
 
-	// Parse optional category_id filter
+	// Optionalen Kategoriefilter parsen
 	var categoryID *uuid.UUID
 	if categoryIDStr := r.URL.Query().Get("category_id"); categoryIDStr != "" {
 		id, err := uuid.Parse(categoryIDStr)
@@ -100,7 +100,7 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 		shared.WriteError(w, http.StatusUnauthorized, "unauthorized")
 		return
 	}
-	// Use interface to get user ID - works with both auth.User and test mocks
+	// Interface nutzen um User ID zu bekommen - funktioniert mit auth.User und Test-Mocks
 	user, ok := userVal.(shared.UserIDGetter)
 	if !ok {
 		shared.WriteError(w, http.StatusUnauthorized, "unauthorized")
@@ -191,7 +191,7 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 	shared.WriteJSON(w, http.StatusOK, map[string]string{"message": "product deleted"})
 }
 
-// parseUUID extracts a UUID from the URL path
+// parseUUID extrahiert eine UUID aus dem URL-Pfad
 func (h *Handler) parseUUID(r *http.Request, key string) (uuid.UUID, error) {
 	idStr := r.PathValue(key)
 	if idStr == "" {
@@ -200,7 +200,7 @@ func (h *Handler) parseUUID(r *http.Request, key string) (uuid.UUID, error) {
 	return uuid.Parse(idStr)
 }
 
-// handleError converts service errors to HTTP responses
+// handleError konvertiert Service-Fehler zu HTTP-Antworten
 func (h *Handler) handleError(w http.ResponseWriter, err error) {
 	var validationErr *ValidationError
 	if errors.As(err, &validationErr) {

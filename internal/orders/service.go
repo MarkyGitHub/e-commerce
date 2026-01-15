@@ -14,14 +14,14 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// OrderService defines the interface for order business logic
+// OrderService definiert Interface für Bestell-Geschäftslogik
 type OrderService interface {
 	CreateOrder(ctx context.Context, userID uuid.UUID, shippingAddress CreateOrderRequest) (*Order, []OrderItem, error)
 	GetOrder(ctx context.Context, userID uuid.UUID, orderID uuid.UUID, isAdmin bool) (*Order, []OrderItem, error)
 	ListOrders(ctx context.Context, userID uuid.UUID, isAdmin bool, page, limit int) ([]Order, int64, error)
 }
 
-// orderService implements OrderService
+// orderService implementiert OrderService
 type orderService struct {
 	db                  *gorm.DB
 	transaction         func(func(*gorm.DB) error) error
@@ -34,7 +34,7 @@ type orderService struct {
 	notificationService notifications.NotificationService
 }
 
-// NewOrderService creates a new OrderService
+// NewOrderService erstellt einen neuen OrderService
 func NewOrderService(
 	db *gorm.DB,
 	orderRepo OrderRepository,
@@ -61,7 +61,7 @@ func NewOrderService(
 }
 
 func (s *orderService) CreateOrder(ctx context.Context, userID uuid.UUID, shippingAddress CreateOrderRequest) (*Order, []OrderItem, error) {
-	// Validate shipping address
+	// Lieferadresse validieren
 	if shippingAddress.ShippingStreet == "" {
 		return nil, nil, shared.ErrBadRequest
 	}
@@ -75,7 +75,7 @@ func (s *orderService) CreateOrder(ctx context.Context, userID uuid.UUID, shippi
 		return nil, nil, shared.ErrBadRequest
 	}
 
-	// Get cart
+	// Warenkorb holen
 	userCart, err := s.cartRepo.FindByUserID(ctx, userID)
 	if err != nil {
 		if err == shared.ErrNotFound {
@@ -84,7 +84,7 @@ func (s *orderService) CreateOrder(ctx context.Context, userID uuid.UUID, shippi
 		return nil, nil, err
 	}
 
-	// Get cart items
+	// Warenkorb-Artikel holen
 	cartItems, err := s.cartItemRepo.FindByCartID(ctx, userCart.ID)
 	if err != nil {
 		return nil, nil, err
@@ -98,23 +98,23 @@ func (s *orderService) CreateOrder(ctx context.Context, userID uuid.UUID, shippi
 		return nil, nil, fmt.Errorf("transaction handler is not configured")
 	}
 
-	// Start transaction
+	// Transaktion starten
 	var order *Order
 	var orderItems []OrderItem
 
 	err = s.transaction(func(tx *gorm.DB) error {
 		var totalPrice float64
 
-		// Create order items and calculate total
+		// Bestellartikel erstellen und Summe berechnen
 		orderItems = make([]OrderItem, len(cartItems))
 		for i, cartItem := range cartItems {
-			// Get product price
+			// Produktpreis holen
 			product, err := s.productRepo.FindByID(ctx, cartItem.ProductID)
 			if err != nil {
 				return err
 			}
 
-			// Check and decrement inventory via repository
+			// Lagerbestand prüfen und reduzieren
 			if tx != nil {
 				if err := s.inventoryRepo.DecrementQuantityTx(ctx, tx, cartItem.ProductID, cartItem.Quantity); err != nil {
 					return err
@@ -136,7 +136,7 @@ func (s *orderService) CreateOrder(ctx context.Context, userID uuid.UUID, shippi
 			}
 		}
 
-		// Create order with shipping address
+		// Bestellung mit Lieferadresse erstellen
 		order = &Order{
 			ID:              uuid.New(),
 			UserID:          userID,
@@ -153,7 +153,7 @@ func (s *orderService) CreateOrder(ctx context.Context, userID uuid.UUID, shippi
 				return err
 			}
 
-			// Set order ID on items and create them
+			// Bestell-ID auf Artikel setzen und erstellen
 			for i := range orderItems {
 				orderItems[i].OrderID = order.ID
 			}
@@ -162,12 +162,12 @@ func (s *orderService) CreateOrder(ctx context.Context, userID uuid.UUID, shippi
 				return err
 			}
 
-			// Clear cart items
+			// Warenkorb-Artikel löschen
 			if err := s.cartRepo.ClearTx(ctx, tx, userCart.ID); err != nil {
 				return err
 			}
 
-			// Create notification inside transaction
+			// Benachrichtigung in Transaktion erstellen
 			title := "Order Placed"
 			message := fmt.Sprintf("Your order #%s has been placed successfully. Total: $%.2f", order.ID.String()[:8], order.TotalPrice)
 			if _, notifErr := s.notificationService.CreateNotificationTx(ctx, tx, userID, title, message); notifErr != nil {
@@ -204,7 +204,7 @@ func (s *orderService) GetOrder(ctx context.Context, userID uuid.UUID, orderID u
 		return nil, nil, err
 	}
 
-	// Check access: user can only see their own orders unless admin
+	// Zugriff prüfen: Benutzer sieht nur eigene Bestellungen außer Admin
 	if !isAdmin && order.UserID != userID {
 		return nil, nil, shared.ErrForbidden
 	}

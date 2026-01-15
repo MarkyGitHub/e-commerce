@@ -10,7 +10,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// CartRepository defines the interface for cart data access
+// CartRepository definiert Interface für Warenkorb-Datenzugriff
 type CartRepository interface {
 	FindOrCreateByUserID(ctx context.Context, userID uuid.UUID) (*Cart, error)
 	FindByUserID(ctx context.Context, userID uuid.UUID) (*Cart, error)
@@ -18,7 +18,7 @@ type CartRepository interface {
 	ClearTx(ctx context.Context, tx *gorm.DB, cartID uuid.UUID) error
 }
 
-// CartItemRepository defines the interface for cart item data access
+// CartItemRepository definiert Interface für Warenkorb-Artikel-Datenzugriff
 type CartItemRepository interface {
 	Create(ctx context.Context, item *CartItem) error
 	FindByCartID(ctx context.Context, cartID uuid.UUID) ([]CartItem, error)
@@ -28,12 +28,12 @@ type CartItemRepository interface {
 	FindByCartAndProduct(ctx context.Context, cartID, productID uuid.UUID) (*CartItem, error)
 }
 
-// CartRepositoryImpl implements CartRepository using GORM
+// CartRepositoryImpl implementiert CartRepository mit GORM
 type CartRepositoryImpl struct {
 	db *gorm.DB
 }
 
-// NewCartRepository creates a new CartRepository
+// NewCartRepository erstellt ein neues CartRepository
 func NewCartRepository(db *gorm.DB) CartRepository {
 	return &CartRepositoryImpl{db: db}
 }
@@ -48,7 +48,7 @@ func (r *CartRepositoryImpl) FindOrCreateByUserID(ctx context.Context, userID uu
 		return nil, result.Error
 	}
 
-	// Create new cart
+	// Neuen Warenkorb erstellen
 	cart = Cart{
 		ID:     uuid.New(),
 		UserID: userID,
@@ -79,17 +79,17 @@ func (r *CartRepositoryImpl) ClearTx(ctx context.Context, tx *gorm.DB, cartID uu
 	return tx.WithContext(ctx).Where("cart_id = ?", cartID).Delete(&CartItem{}).Error
 }
 
-// GetDB returns the underlying database connection
+// GetDB gibt die Datenbankverbindung zurück
 func (r *CartRepositoryImpl) GetDB() *gorm.DB {
 	return r.db
 }
 
-// cartItemRepository implements CartItemRepository using GORM
+// cartItemRepository implementiert CartItemRepository mit GORM
 type cartItemRepository struct {
 	db *gorm.DB
 }
 
-// NewCartItemRepository creates a new CartItemRepository
+// NewCartItemRepository erstellt ein neues CartItemRepository
 func NewCartItemRepository(db *gorm.DB) CartItemRepository {
 	return &cartItemRepository{db: db}
 }

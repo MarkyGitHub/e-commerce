@@ -10,12 +10,12 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// Handler handles inventory HTTP requests
+// Handler verarbeitet Inventar-HTTP-Anfragen
 type Handler struct {
 	service InventoryService
 }
 
-// NewHandler creates a new inventory handler
+// NewHandler erstellt einen neuen Inventar-Handler
 func NewHandler(service InventoryService) *Handler {
 	return &Handler{service: service}
 }
@@ -70,7 +70,7 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 		shared.WriteError(w, http.StatusUnauthorized, "unauthorized")
 		return
 	}
-	// Use type assertion to get user ID without importing auth package
+	// Type Assertion nutzen um User ID zu bekommen ohne auth-Paket zu importieren
 	type userWithID interface {
 		GetID() uuid.UUID
 	}
@@ -101,7 +101,7 @@ func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
 	shared.WriteJSON(w, http.StatusOK, inventory.ToResponse())
 }
 
-// parseUUID extracts a UUID from the URL path
+// parseUUID extrahiert eine UUID aus dem URL-Pfad
 func (h *Handler) parseUUID(r *http.Request, key string) (uuid.UUID, error) {
 	idStr := r.PathValue(key)
 	if idStr == "" {
@@ -110,7 +110,7 @@ func (h *Handler) parseUUID(r *http.Request, key string) (uuid.UUID, error) {
 	return uuid.Parse(idStr)
 }
 
-// handleError converts service errors to HTTP responses
+// handleError konvertiert Service-Fehler zu HTTP-Antworten
 func (h *Handler) handleError(w http.ResponseWriter, err error) {
 	switch {
 	case errors.Is(err, shared.ErrNotFound):

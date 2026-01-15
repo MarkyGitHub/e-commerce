@@ -11,12 +11,12 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// Handler handles cart HTTP requests
+// Handler verarbeitet Warenkorb-HTTP-Anfragen
 type Handler struct {
 	service CartService
 }
 
-// NewHandler creates a new cart handler
+// NewHandler erstellt einen neuen Warenkorb-Handler
 func NewHandler(service CartService) *Handler {
 	return &Handler{service: service}
 }
@@ -202,7 +202,7 @@ func (h *Handler) Clear(w http.ResponseWriter, r *http.Request) {
 	shared.WriteJSON(w, http.StatusOK, map[string]string{"message": "cart cleared"})
 }
 
-// parseUUID extracts a UUID from the URL path
+// parseUUID extrahiert eine UUID aus dem URL-Pfad
 func (h *Handler) parseUUID(r *http.Request, key string) (uuid.UUID, error) {
 	idStr := r.PathValue(key)
 	if idStr == "" {
@@ -211,7 +211,7 @@ func (h *Handler) parseUUID(r *http.Request, key string) (uuid.UUID, error) {
 	return uuid.Parse(idStr)
 }
 
-// handleError converts service errors to HTTP responses
+// handleError konvertiert Service-Fehler zu HTTP-Antworten
 func (h *Handler) handleError(w http.ResponseWriter, err error) {
 	switch {
 	case errors.Is(err, shared.ErrNotFound):

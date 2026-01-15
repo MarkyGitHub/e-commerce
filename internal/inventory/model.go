@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Inventory represents the stock quantity for a product
+// Inventory repräsentiert den Lagerbestand für ein Produkt
 type Inventory struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	ProductID uuid.UUID `gorm:"type:uuid;uniqueIndex;not null" json:"product_id"`
@@ -14,20 +14,20 @@ type Inventory struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// UpdateInventoryRequest represents the request to update inventory (PATCH - increment)
+// UpdateInventoryRequest repräsentiert Anfrage zum Aktualisieren des Inventars (PATCH - Erhöhung)
 type UpdateInventoryRequest struct {
 	IncrementBy int    `json:"increment_by"`
 	Reason      string `json:"reason"`
 }
 
-// InventoryResponse represents the inventory in API responses
+// InventoryResponse repräsentiert das Inventar in API-Antworten
 type InventoryResponse struct {
 	ProductID uuid.UUID `json:"product_id"`
 	Quantity  int       `json:"quantity"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// ToResponse converts an Inventory to InventoryResponse
+// ToResponse konvertiert ein Inventory zu InventoryResponse
 func (i *Inventory) ToResponse() InventoryResponse {
 	return InventoryResponse{
 		ProductID: i.ProductID,

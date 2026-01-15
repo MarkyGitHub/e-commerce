@@ -11,7 +11,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// CartService defines the interface for cart business logic
+// CartService definiert Interface für Warenkorb-Geschäftslogik
 type CartService interface {
 	GetCart(ctx context.Context, userID uuid.UUID) (*Cart, []CartItem, error)
 	AddItem(ctx context.Context, userID uuid.UUID, req AddItemRequest) (*CartItem, error)
@@ -20,7 +20,7 @@ type CartService interface {
 	ClearCart(ctx context.Context, userID uuid.UUID) error
 }
 
-// cartService implements CartService
+// cartService implementiert CartService
 type cartService struct {
 	cartRepo            CartRepository
 	cartItemRepo        CartItemRepository
@@ -29,7 +29,7 @@ type cartService struct {
 	notificationService notifications.NotificationService
 }
 
-// NewCartService creates a new CartService
+// NewCartService erstellt einen neuen CartService
 func NewCartService(
 	cartRepo CartRepository,
 	cartItemRepo CartItemRepository,
@@ -61,13 +61,13 @@ func (s *cartService) GetCart(ctx context.Context, userID uuid.UUID) (*Cart, []C
 }
 
 func (s *cartService) AddItem(ctx context.Context, userID uuid.UUID, req AddItemRequest) (*CartItem, error) {
-	// Validate product exists
+	// Prüfen ob Produkt existiert
 	_, err := s.productRepo.FindByID(ctx, req.ProductID)
 	if err != nil {
 		return nil, err
 	}
 
-	// Check inventory availability
+	// Lagerbestandsverfügbarkeit prüfen
 	inv, err := s.inventoryRepo.FindByProductID(ctx, req.ProductID)
 	if err != nil {
 		if err == shared.ErrNotFound {
@@ -79,16 +79,16 @@ func (s *cartService) AddItem(ctx context.Context, userID uuid.UUID, req AddItem
 		return nil, shared.ErrInsufficientInventory
 	}
 
-	// Get or create cart
+	// Warenkorb holen oder erstellen
 	cart, err := s.cartRepo.FindOrCreateByUserID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
 
-	// Check if product already in cart
+	// Prüfen ob Produkt bereits im Warenkorb
 	existingItem, err := s.cartItemRepo.FindByCartAndProduct(ctx, cart.ID, req.ProductID)
 	if err == nil {
-		// Update existing item
+		// Bestehenden Artikel aktualisieren
 		newQuantity := existingItem.Quantity + req.Quantity
 		if inv.Quantity < newQuantity {
 			return nil, shared.ErrInsufficientInventory
@@ -97,11 +97,11 @@ func (s *cartService) AddItem(ctx context.Context, userID uuid.UUID, req AddItem
 		if err := s.cartItemRepo.Update(ctx, existingItem); err != nil {
 			return nil, err
 		}
-		// Create notification for cart update
+		// Benachrichtigung für Warenkorb-Aktualisierung erstellen
 		title := "Cart Updated"
 		message := "Cart item quantity updated successfully."
 		if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-			// Log error but don't fail cart update
+			// Fehler loggen, aber Warenkorb-Aktualisierung nicht abbrechen
 		}
 		return existingItem, nil
 	}
@@ -109,7 +109,7 @@ func (s *cartService) AddItem(ctx context.Context, userID uuid.UUID, req AddItem
 		return nil, err
 	}
 
-	// Create new cart item
+	// Neuen Warenkorb-Artikel erstellen
 	item := &CartItem{
 		ID:        uuid.New(),
 		CartID:    cart.ID,
@@ -120,35 +120,35 @@ func (s *cartService) AddItem(ctx context.Context, userID uuid.UUID, req AddItem
 		return nil, err
 	}
 
-	// Create notification for cart update
+	// Benachrichtigung für Warenkorb-Aktualisierung erstellen
 	title := "Cart Updated"
 	message := "Item added to cart successfully."
 	if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-		// Log error but don't fail cart addition
+		// Fehler loggen, aber Hinzufügen nicht abbrechen
 	}
 
 	return item, nil
 }
 
 func (s *cartService) UpdateItem(ctx context.Context, userID uuid.UUID, itemID uuid.UUID, quantity int) (*CartItem, error) {
-	// Get cart
+	// Warenkorb holen
 	cart, err := s.cartRepo.FindByUserID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
 
-	// Get cart item
+	// Warenkorb-Artikel holen
 	item, err := s.cartItemRepo.FindByID(ctx, itemID)
 	if err != nil {
 		return nil, err
 	}
 
-	// Verify item belongs to user's cart
+	// Prüfen ob Artikel zum Benutzer-Warenkorb gehört
 	if item.CartID != cart.ID {
 		return nil, shared.ErrForbidden
 	}
 
-	// Check inventory availability
+	// Lagerbestandsverfügbarkeit prüfen
 	inv, err := s.inventoryRepo.FindByProductID(ctx, item.ProductID)
 	if err != nil {
 		return nil, err
@@ -157,36 +157,36 @@ func (s *cartService) UpdateItem(ctx context.Context, userID uuid.UUID, itemID u
 		return nil, shared.ErrInsufficientInventory
 	}
 
-	// Update quantity
+	// Menge aktualisieren
 	item.Quantity = quantity
 	if err := s.cartItemRepo.Update(ctx, item); err != nil {
 		return nil, err
 	}
 
-	// Create notification for cart update
+	// Benachrichtigung für Warenkorb-Aktualisierung erstellen
 	title := "Cart Updated"
 	message := "Cart item quantity updated successfully."
 	if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-		// Log error but don't fail cart update
+		// Fehler loggen, aber Warenkorb-Aktualisierung nicht abbrechen
 	}
 
 	return item, nil
 }
 
 func (s *cartService) RemoveItem(ctx context.Context, userID uuid.UUID, itemID uuid.UUID) error {
-	// Get cart
+	// Warenkorb holen
 	cart, err := s.cartRepo.FindByUserID(ctx, userID)
 	if err != nil {
 		return err
 	}
 
-	// Get cart item
+	// Warenkorb-Artikel holen
 	item, err := s.cartItemRepo.FindByID(ctx, itemID)
 	if err != nil {
 		return err
 	}
 
-	// Verify item belongs to user's cart
+	// Prüfen ob Artikel zum Benutzer-Warenkorb gehört
 	if item.CartID != cart.ID {
 		return shared.ErrForbidden
 	}
@@ -198,7 +198,7 @@ func (s *cartService) ClearCart(ctx context.Context, userID uuid.UUID) error {
 	cart, err := s.cartRepo.FindByUserID(ctx, userID)
 	if err != nil {
 		if err == shared.ErrNotFound {
-			return nil // Nothing to clear
+			return nil // Nichts zu löschen
 		}
 		return err
 	}

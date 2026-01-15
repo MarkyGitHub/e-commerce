@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Product represents a product in the catalog
+// Product repräsentiert ein Produkt im Katalog
 type Product struct {
 	ID          uuid.UUID  `gorm:"type:uuid;primaryKey" json:"id"`
 	Name        string     `gorm:"not null" json:"name"`
@@ -18,7 +18,7 @@ type Product struct {
 	UpdatedAt   time.Time  `json:"updated_at"`
 }
 
-// CreateProductRequest represents the request to create a product
+// CreateProductRequest repräsentiert Anfrage zum Erstellen eines Produkts
 type CreateProductRequest struct {
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
@@ -26,7 +26,7 @@ type CreateProductRequest struct {
 	CategoryID  *uuid.UUID `json:"category_id"`
 }
 
-// UpdateProductRequest represents the request to update a product
+// UpdateProductRequest repräsentiert Anfrage zum Aktualisieren eines Produkts
 type UpdateProductRequest struct {
 	Name        *string     `json:"name,omitempty"`
 	Description *string     `json:"description,omitempty"`
@@ -35,7 +35,7 @@ type UpdateProductRequest struct {
 	IsActive    *bool       `json:"is_active,omitempty"`
 }
 
-// Validate validates the CreateProductRequest
+// Validate validiert CreateProductRequest
 func (r *CreateProductRequest) Validate() error {
 	if r.Name == "" {
 		return ErrInvalidProductName
@@ -46,13 +46,13 @@ func (r *CreateProductRequest) Validate() error {
 	return nil
 }
 
-// Product-specific errors
+// Produkt-spezifische Fehler
 var (
 	ErrInvalidProductName  = &ValidationError{Field: "name", Message: "product name is required"}
 	ErrInvalidProductPrice = &ValidationError{Field: "price", Message: "product price cannot be negative"}
 )
 
-// ValidationError represents a validation error
+// ValidationError repräsentiert einen Validierungsfehler
 type ValidationError struct {
 	Field   string
 	Message string

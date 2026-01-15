@@ -13,23 +13,23 @@ import (
 	"github.com/mschl/ecommerce-api/internal/products"
 )
 
-// Migrate runs database migrations for all models
+// Migrate führt Datenbankmigrationen für alle Modelle aus
 func Migrate(db *gorm.DB) error {
 	err := db.AutoMigrate(
-		// Auth models
+		// Auth-Modelle
 		&auth.User{},
 		&auth.Session{},
-		// Products
+		// Produkte
 		&products.Product{},
-		// Inventory
+		// Bestand
 		&inventory.Inventory{},
-		// Cart
+		// Warenkorb
 		&cart.Cart{},
 		&cart.CartItem{},
-		// Orders
+		// Bestellungen
 		&orders.Order{},
 		&orders.OrderItem{},
-		// Notifications
+		// Benachrichtigungen
 		&notifications.Notification{},
 	)
 	if err != nil {

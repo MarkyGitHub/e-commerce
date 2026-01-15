@@ -7,7 +7,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// RequireRole creates middleware that requires a specific role
+// RequireRole erstellt Middleware die eine bestimmte Rolle erfordert
 func RequireRole(role string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -27,18 +27,18 @@ func RequireRole(role string) func(http.Handler) http.Handler {
 	}
 }
 
-// RequireAdmin creates middleware that requires admin role
+// RequireAdmin erstellt Middleware die Admin-Rolle erfordert
 func RequireAdmin(next http.Handler) http.Handler {
 	return RequireRole(auth.RoleAdmin)(next)
 }
 
-// hasRole checks if a user has the required role
-// Admin has access to everything, customer only has access to customer resources
+// hasRole prüft ob Benutzer die erforderliche Rolle hat
+// Admin hat Zugriff auf alles, Kunde nur auf Kunden-Ressourcen
 func hasRole(user *auth.User, requiredRole string) bool {
-	// Admin has all permissions
+	// Admin hat alle Berechtigungen
 	if user.Role == auth.RoleAdmin {
 		return true
 	}
-	// Check if user has the required role
+	// Prüfen ob Benutzer die erforderliche Rolle hat
 	return user.Role == requiredRole
 }

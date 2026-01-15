@@ -9,12 +9,12 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// Handler handles notification HTTP requests
+// Handler verarbeitet Benachrichtigungs-HTTP-Anfragen
 type Handler struct {
 	service NotificationService
 }
 
-// NewHandler creates a new notification handler
+// NewHandler erstellt einen neuen Benachrichtigungs-Handler
 func NewHandler(service NotificationService) *Handler {
 	return &Handler{service: service}
 }
@@ -36,8 +36,8 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 		shared.WriteError(w, http.StatusUnauthorized, "unauthorized")
 		return
 	}
-	// Use type assertion to get user ID without importing auth package
-	// This avoids import cycle: auth -> notifications -> auth
+	// Type Assertion nutzen um User ID zu bekommen ohne auth-Paket zu importieren
+	// Dies vermeidet Import-Zyklus: auth -> notifications -> auth
 	type userWithID interface {
 		GetID() uuid.UUID
 	}
@@ -77,8 +77,8 @@ func (h *Handler) MarkAsRead(w http.ResponseWriter, r *http.Request) {
 		shared.WriteError(w, http.StatusUnauthorized, "unauthorized")
 		return
 	}
-	// Use type assertion to get user ID without importing auth package
-	// This avoids import cycle: auth -> notifications -> auth
+	// Type Assertion nutzen um User ID zu bekommen ohne auth-Paket zu importieren
+	// Dies vermeidet Import-Zyklus: auth -> notifications -> auth
 	type userWithID interface {
 		GetID() uuid.UUID
 	}
@@ -102,7 +102,7 @@ func (h *Handler) MarkAsRead(w http.ResponseWriter, r *http.Request) {
 	shared.WriteJSON(w, http.StatusOK, map[string]string{"message": "notification marked as read"})
 }
 
-// parseUUID extracts a UUID from the URL path
+// parseUUID extrahiert eine UUID aus dem URL-Pfad
 func (h *Handler) parseUUID(r *http.Request, key string) (uuid.UUID, error) {
 	idStr := r.PathValue(key)
 	if idStr == "" {
@@ -111,7 +111,7 @@ func (h *Handler) parseUUID(r *http.Request, key string) (uuid.UUID, error) {
 	return uuid.Parse(idStr)
 }
 
-// handleError converts service errors to HTTP responses
+// handleError konvertiert Service-Fehler zu HTTP-Antworten
 func (h *Handler) handleError(w http.ResponseWriter, err error) {
 	switch {
 	case errors.Is(err, shared.ErrNotFound):

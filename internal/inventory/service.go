@@ -9,7 +9,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// InventoryService defines the interface for inventory business logic
+// InventoryService definiert Interface für Inventar-Geschäftslogik
 type InventoryService interface {
 	GetInventory(ctx context.Context, productID uuid.UUID) (*Inventory, error)
 	UpdateInventory(ctx context.Context, productID uuid.UUID, quantity int) (*Inventory, error)
@@ -18,13 +18,13 @@ type InventoryService interface {
 	CreateInventory(ctx context.Context, productID uuid.UUID, quantity int) (*Inventory, error)
 }
 
-// inventoryService implements InventoryService
+// inventoryService implementiert InventoryService
 type inventoryService struct {
 	repo                InventoryRepository
 	notificationService notifications.NotificationService
 }
 
-// NewInventoryService creates a new InventoryService
+// NewInventoryService erstellt einen neuen InventoryService
 func NewInventoryService(repo InventoryRepository, notificationService notifications.NotificationService) InventoryService {
 	return &inventoryService{
 		repo:                repo,
@@ -37,7 +37,7 @@ func (s *inventoryService) GetInventory(ctx context.Context, productID uuid.UUID
 }
 
 func (s *inventoryService) UpdateInventory(ctx context.Context, productID uuid.UUID, quantity int) (*Inventory, error) {
-	// Validate quantity is non-negative
+	// Menge darf nicht negativ sein
 	if quantity < 0 {
 		return nil, shared.ErrNegativeQuantity
 	}
@@ -47,7 +47,7 @@ func (s *inventoryService) UpdateInventory(ctx context.Context, productID uuid.U
 		return nil, err
 	}
 
-	// Set quantity to new value
+	// Menge auf neuen Wert setzen
 	inventory.Quantity = quantity
 
 	if err := s.repo.Update(ctx, inventory); err != nil {
@@ -63,7 +63,7 @@ func (s *inventoryService) IncrementInventory(ctx context.Context, productID uui
 		return nil, err
 	}
 
-	// Increment quantity
+	// Menge erhöhen
 	newQuantity := inventory.Quantity + incrementBy
 	if newQuantity < 0 {
 		return nil, shared.ErrNegativeQuantity
@@ -75,11 +75,11 @@ func (s *inventoryService) IncrementInventory(ctx context.Context, productID uui
 		return nil, err
 	}
 
-	// Create notification for inventory update
+	// Benachrichtigung für Inventaraktualisierung erstellen
 	title := "Inventory Updated"
 	message := "Inventory updated successfully."
 	if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-		// Log error but don't fail inventory update
+		// Fehler loggen, aber Inventaraktualisierung nicht abbrechen
 	}
 
 	return inventory, nil

@@ -10,7 +10,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// InventoryRepository defines the interface for inventory data access
+// InventoryRepository definiert Interface für Inventar-Datenzugriff
 type InventoryRepository interface {
 	Create(ctx context.Context, inventory *Inventory) error
 	FindByProductID(ctx context.Context, productID uuid.UUID) (*Inventory, error)
@@ -19,12 +19,12 @@ type InventoryRepository interface {
 	DecrementQuantityTx(ctx context.Context, tx *gorm.DB, productID uuid.UUID, amount int) error
 }
 
-// InventoryRepositoryImpl implements InventoryRepository using GORM
+// InventoryRepositoryImpl implementiert InventoryRepository mit GORM
 type InventoryRepositoryImpl struct {
 	db *gorm.DB
 }
 
-// NewInventoryRepository creates a new InventoryRepository
+// NewInventoryRepository erstellt ein neues InventoryRepository
 func NewInventoryRepository(db *gorm.DB) InventoryRepository {
 	return &InventoryRepositoryImpl{db: db}
 }
@@ -75,7 +75,7 @@ func (r *InventoryRepositoryImpl) DecrementQuantityTx(ctx context.Context, tx *g
 	return nil
 }
 
-// GetDB returns the underlying database connection for transactions
+// GetDB gibt die Datenbankverbindung für Transaktionen zurück
 func (r *InventoryRepositoryImpl) GetDB() *gorm.DB {
 	return r.db
 }

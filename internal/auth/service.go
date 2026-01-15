@@ -14,7 +14,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// AuthService defines the interface for authentication operations
+// AuthService definiert Interface für Authentifizierung
 type AuthService interface {
 	Register(ctx context.Context, req RegisterRequest) (*User, error)
 	Login(ctx context.Context, req LoginRequest) (*LoginResponse, error)
@@ -22,14 +22,14 @@ type AuthService interface {
 	ValidateSession(ctx context.Context, token string) (*User, error)
 }
 
-// authService implements AuthService
+// authService implementiert AuthService
 type authService struct {
 	userRepo            UserRepository
 	sessionRepo         SessionRepository
 	notificationService notifications.NotificationService
 }
 
-// NewAuthService creates a new AuthService
+// NewAuthService erstellt einen neuen AuthService
 func NewAuthService(userRepo UserRepository, sessionRepo SessionRepository, notificationService notifications.NotificationService) AuthService {
 	return &authService{
 		userRepo:            userRepo,
@@ -38,24 +38,24 @@ func NewAuthService(userRepo UserRepository, sessionRepo SessionRepository, noti
 	}
 }
 
-// Register creates a new user account
+// Register erstellt ein neues Benutzerkonto
 func (s *authService) Register(ctx context.Context, req RegisterRequest) (*User, error) {
-	// Validate email format
+	// E-Mail-Format validieren
 	if !isValidEmail(req.Email) {
 		return nil, shared.ErrInvalidEmail
 	}
 
-	// Validate password length
+	// Passwortlänge validieren
 	if len(req.Password) < 8 {
 		return nil, shared.ErrPasswordTooShort
 	}
 
-	// Validate username
+	// Benutzername validieren
 	if req.Username == "" {
 		return nil, shared.ErrBadRequest
 	}
 
-	// Hash password
+	// Passwort hashen
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
@@ -73,20 +73,19 @@ func (s *authService) Register(ctx context.Context, req RegisterRequest) (*User,
 		return nil, err
 	}
 
-	// Create notification for registration
-	title := "Welcome"
-	message := "Your account has been successfully created."
+	// Benachrichtigung für Registrierung erstellen
+	title := "Willkommen"
+	message := "Dein Konto wurde erfolgreich erstellt."
 	if _, err := s.notificationService.CreateNotification(ctx, user.ID, title, message); err != nil {
-		// Log error but don't fail registration
-		// In production, you might want to use a logger here
+		// Fehler loggen, aber Registrierung nicht abbrechen
 	}
 
 	return user, nil
 }
 
-// Login authenticates a user and creates a session
+// Login authentifiziert Benutzer und erstellt Session
 func (s *authService) Login(ctx context.Context, req LoginRequest) (*LoginResponse, error) {
-	// Find user by email
+	// Benutzer per E-Mail finden
 	user, err := s.userRepo.FindByEmail(ctx, req.Email)
 	if err != nil {
 		if err == shared.ErrNotFound {
@@ -95,34 +94,34 @@ func (s *authService) Login(ctx context.Context, req LoginRequest) (*LoginRespon
 		return nil, err
 	}
 
-	// Verify password
+	// Passwort verifizieren
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
 		return nil, shared.ErrInvalidCredentials
 	}
 
-	// Generate session token
+	// Session-Token generieren
 	token, err := generateToken()
 	if err != nil {
 		return nil, err
 	}
 
-	// Create session
+	// Session erstellen
 	session := &Session{
 		ID:        uuid.New(),
 		UserID:    user.ID,
 		Token:     token,
-		ExpiresAt: time.Now().Add(24 * time.Hour), // 24 hour session
+		ExpiresAt: time.Now().Add(24 * time.Hour), // 24-Stunden-Session
 	}
 
 	if err := s.sessionRepo.Create(ctx, session); err != nil {
 		return nil, err
 	}
 
-	// Create notification for login
-	title := "Login"
-	message := "You have successfully logged in."
+	// Benachrichtigung für Login erstellen
+	title := "Anmeldung"
+	message := "Du hast dich erfolgreich angemeldet."
 	if _, err := s.notificationService.CreateNotification(ctx, user.ID, title, message); err != nil {
-		// Log error but don't fail login
+		// Fehler loggen, aber Login nicht abbrechen
 	}
 
 	return &LoginResponse{
@@ -132,30 +131,30 @@ func (s *authService) Login(ctx context.Context, req LoginRequest) (*LoginRespon
 	}, nil
 }
 
-// Logout invalidates a session
+// Logout macht eine Session ungültig
 func (s *authService) Logout(ctx context.Context, token string) error {
-	// Get session to find user ID before deleting
+	// Session holen um User-ID vor dem Löschen zu finden
 	session, err := s.sessionRepo.FindByToken(ctx, token)
 	if err != nil {
 		return err
 	}
 
-	// Delete session
+	// Session löschen
 	if err := s.sessionRepo.Delete(ctx, token); err != nil {
 		return err
 	}
 
-	// Create notification for logout
-	title := "Logout"
-	message := "You have successfully logged out."
+	// Benachrichtigung für Logout erstellen
+	title := "Abmeldung"
+	message := "Du hast dich erfolgreich abgemeldet."
 	if _, err := s.notificationService.CreateNotification(ctx, session.UserID, title, message); err != nil {
-		// Log error but don't fail logout
+		// Fehler loggen, aber Logout nicht abbrechen
 	}
 
 	return nil
 }
 
-// ValidateSession validates a session token and returns the associated user
+// ValidateSession validiert Session-Token und gibt Benutzer zurück
 func (s *authService) ValidateSession(ctx context.Context, token string) (*User, error) {
 	session, err := s.sessionRepo.FindByToken(ctx, token)
 	if err != nil {
@@ -165,14 +164,14 @@ func (s *authService) ValidateSession(ctx context.Context, token string) (*User,
 		return nil, err
 	}
 
-	// Check if session is expired
+	// Prüfen ob Session abgelaufen ist
 	if time.Now().After(session.ExpiresAt) {
-		// Delete expired session
+		// Abgelaufene Session löschen
 		s.sessionRepo.Delete(ctx, token)
 		return nil, shared.ErrUnauthorized
 	}
 
-	// Get user
+	// Benutzer holen
 	user, err := s.userRepo.FindByID(ctx, session.UserID)
 	if err != nil {
 		return nil, shared.ErrUnauthorized
@@ -181,13 +180,13 @@ func (s *authService) ValidateSession(ctx context.Context, token string) (*User,
 	return user, nil
 }
 
-// isValidEmail validates email format using regex
+// isValidEmail validiert E-Mail-Format mit Regex
 func isValidEmail(email string) bool {
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	return emailRegex.MatchString(email)
 }
 
-// generateToken generates a cryptographically secure random token
+// generateToken generiert einen kryptographisch sicheren Zufalls-Token
 func generateToken() (string, error) {
 	bytes := make([]byte, 32)
 	if _, err := rand.Read(bytes); err != nil {

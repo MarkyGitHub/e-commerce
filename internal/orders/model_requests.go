@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// CreateOrderRequest represents the request to create an order
+// CreateOrderRequest repräsentiert Anfrage zum Erstellen einer Bestellung
 type CreateOrderRequest struct {
 	Items            []OrderItemRequest `json:"items"`
 	ShippingStreet   string             `json:"shipping_street"`
@@ -13,7 +13,7 @@ type CreateOrderRequest struct {
 	ShippingCountry  string             `json:"shipping_country"`
 }
 
-// OrderItemRequest represents an item in the create order request
+// OrderItemRequest repräsentiert einen Artikel in der Bestellanfrage
 type OrderItemRequest struct {
 	ProductID uuid.UUID `json:"product_id"`
 	Quantity  int       `json:"quantity"`

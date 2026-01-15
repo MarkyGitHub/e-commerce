@@ -10,7 +10,7 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// OrderRepository defines the interface for order data access
+// OrderRepository definiert Interface für Bestell-Datenzugriff
 type OrderRepository interface {
 	Create(ctx context.Context, order *Order) error
 	CreateTx(ctx context.Context, tx *gorm.DB, order *Order) error
@@ -19,19 +19,19 @@ type OrderRepository interface {
 	FindAll(ctx context.Context, offset, limit int) ([]Order, int64, error)
 }
 
-// OrderItemRepository defines the interface for order item data access
+// OrderItemRepository definiert Interface für Bestellartikel-Datenzugriff
 type OrderItemRepository interface {
 	CreateBatch(ctx context.Context, items []OrderItem) error
 	CreateBatchTx(ctx context.Context, tx *gorm.DB, items []OrderItem) error
 	FindByOrderID(ctx context.Context, orderID uuid.UUID) ([]OrderItem, error)
 }
 
-// orderRepository implements OrderRepository using GORM
+// orderRepository implementiert OrderRepository mit GORM
 type orderRepository struct {
 	db *gorm.DB
 }
 
-// NewOrderRepository creates a new OrderRepository
+// NewOrderRepository erstellt ein neues OrderRepository
 func NewOrderRepository(db *gorm.DB) OrderRepository {
 	return &orderRepository{db: db}
 }
@@ -63,12 +63,12 @@ func (r *orderRepository) FindByUserID(ctx context.Context, userID uuid.UUID, of
 	var orders []Order
 	var totalCount int64
 
-	// Get total count
+	// Gesamtzahl ermitteln
 	if err := r.db.WithContext(ctx).Model(&Order{}).Where("user_id = ?", userID).Count(&totalCount).Error; err != nil {
 		return nil, 0, err
 	}
 
-	// Get paginated results
+	// Paginierte Ergebnisse holen
 	result := r.db.WithContext(ctx).
 		Where("user_id = ?", userID).
 		Offset(offset).
@@ -87,12 +87,12 @@ func (r *orderRepository) FindAll(ctx context.Context, offset, limit int) ([]Ord
 	var orders []Order
 	var totalCount int64
 
-	// Get total count
+	// Gesamtzahl ermitteln
 	if err := r.db.WithContext(ctx).Model(&Order{}).Count(&totalCount).Error; err != nil {
 		return nil, 0, err
 	}
 
-	// Get paginated results
+	// Paginierte Ergebnisse holen
 	result := r.db.WithContext(ctx).
 		Offset(offset).
 		Limit(limit).
@@ -106,17 +106,17 @@ func (r *orderRepository) FindAll(ctx context.Context, offset, limit int) ([]Ord
 	return orders, totalCount, nil
 }
 
-// GetDB returns the underlying database connection
+// GetDB gibt die Datenbankverbindung zurück
 func (r *orderRepository) GetDB() *gorm.DB {
 	return r.db
 }
 
-// orderItemRepository implements OrderItemRepository using GORM
+// orderItemRepository implementiert OrderItemRepository mit GORM
 type orderItemRepository struct {
 	db *gorm.DB
 }
 
-// NewOrderItemRepository creates a new OrderItemRepository
+// NewOrderItemRepository erstellt ein neues OrderItemRepository
 func NewOrderItemRepository(db *gorm.DB) OrderItemRepository {
 	return &orderItemRepository{db: db}
 }

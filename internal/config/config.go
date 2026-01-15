@@ -8,19 +8,19 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// Config holds all application configuration
+// Config enthält die gesamte Anwendungskonfiguration
 type Config struct {
 	AppEnv string
 	Server ServerConfig
 	DB     DBConfig
 }
 
-// ServerConfig holds server-related configuration
+// ServerConfig enthält Server-Konfiguration
 type ServerConfig struct {
 	Port string
 }
 
-// DBConfig holds database configuration
+// DBConfig enthält Datenbank-Konfiguration
 type DBConfig struct {
 	Host     string
 	Port     string
@@ -30,7 +30,7 @@ type DBConfig struct {
 	SSLMode  string
 }
 
-// DSN returns the PostgreSQL connection string
+// DSN gibt den PostgreSQL-Verbindungsstring zurück
 func (c DBConfig) DSN() string {
 	return fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
@@ -38,11 +38,11 @@ func (c DBConfig) DSN() string {
 	)
 }
 
-// Load loads configuration from environment variables.
-// If envFile is provided, it will load that file first.
-// Environment variables take precedence over .env file values.
+// Load lädt Konfiguration aus Umgebungsvariablen.
+// Falls envFile angegeben, wird diese Datei zuerst geladen.
+// Umgebungsvariablen haben Vorrang vor .env-Werten.
 func Load(envFile string) (*Config, error) {
-	// Load .env file if provided
+	// .env-Datei laden falls angegeben
 	if envFile != "" {
 		if err := godotenv.Load(envFile); err != nil {
 			return nil, fmt.Errorf("failed to load env file %s: %w", envFile, err)
@@ -65,13 +65,13 @@ func Load(envFile string) (*Config, error) {
 	}, nil
 }
 
-// LoadFromAppEnv loads the appropriate .env file based on APP_ENV environment variable
-// or the provided default environment name.
+// LoadFromAppEnv lädt die passende .env-Datei basierend auf APP_ENV
+// oder dem angegebenen Standard-Umgebungsnamen.
 func LoadFromAppEnv(configDir string, defaultEnv string) (*Config, error) {
 	env := getEnv("APP_ENV", defaultEnv)
 	envFile := fmt.Sprintf("%s/%s.env", configDir, env)
 
-	// Check if file exists, if not just load from environment
+	// Prüfen ob Datei existiert, sonst aus Umgebung laden
 	if _, err := os.Stat(envFile); os.IsNotExist(err) {
 		return Load("")
 	}
@@ -79,7 +79,7 @@ func LoadFromAppEnv(configDir string, defaultEnv string) (*Config, error) {
 	return Load(envFile)
 }
 
-// GetSessionTTLMinutes returns the session TTL in minutes
+// GetSessionTTLMinutes gibt die Session-Gültigkeitsdauer in Minuten zurück
 func GetSessionTTLMinutes() int {
 	ttl := getEnv("SESSION_TTL_MINUTES", "60")
 	if val, err := strconv.Atoi(ttl); err == nil {

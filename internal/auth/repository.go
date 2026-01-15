@@ -10,26 +10,26 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// UserRepository defines the interface for user data access
+// UserRepository definiert Interface für Benutzer-Datenzugriff
 type UserRepository interface {
 	Create(ctx context.Context, user *User) error
 	FindByEmail(ctx context.Context, email string) (*User, error)
 	FindByID(ctx context.Context, id uuid.UUID) (*User, error)
 }
 
-// SessionRepository defines the interface for session data access
+// SessionRepository definiert Interface für Session-Datenzugriff
 type SessionRepository interface {
 	Create(ctx context.Context, session *Session) error
 	FindByToken(ctx context.Context, token string) (*Session, error)
 	Delete(ctx context.Context, token string) error
 }
 
-// userRepository implements UserRepository using GORM
+// userRepository implementiert UserRepository mit GORM
 type userRepository struct {
 	db *gorm.DB
 }
 
-// NewUserRepository creates a new UserRepository
+// NewUserRepository erstellt ein neues UserRepository
 func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userRepository{db: db}
 }
@@ -73,12 +73,12 @@ func (r *userRepository) FindByID(ctx context.Context, id uuid.UUID) (*User, err
 	return &user, nil
 }
 
-// sessionRepository implements SessionRepository using GORM
+// sessionRepository implementiert SessionRepository mit GORM
 type sessionRepository struct {
 	db *gorm.DB
 }
 
-// NewSessionRepository creates a new SessionRepository
+// NewSessionRepository erstellt ein neues SessionRepository
 func NewSessionRepository(db *gorm.DB) SessionRepository {
 	return &sessionRepository{db: db}
 }
@@ -110,7 +110,7 @@ func (r *sessionRepository) Delete(ctx context.Context, token string) error {
 	return nil
 }
 
-// containsDuplicateError checks if the error message indicates a duplicate key error
+// containsDuplicateError prüft ob Fehlermeldung auf Duplikat hinweist
 func containsDuplicateError(errMsg string) bool {
 	return len(errMsg) > 0 && (
 		contains(errMsg, "duplicate key") ||

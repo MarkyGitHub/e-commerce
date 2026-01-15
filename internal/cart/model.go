@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Cart represents a shopping cart for a user
+// Cart repräsentiert einen Warenkorb für einen Benutzer
 type Cart struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	UserID    uuid.UUID `gorm:"type:uuid;uniqueIndex;not null" json:"user_id"`
@@ -14,7 +14,7 @@ type Cart struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// CartItem represents an item in a shopping cart
+// CartItem repräsentiert einen Artikel im Warenkorb
 type CartItem struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	CartID    uuid.UUID `gorm:"type:uuid;not null;index" json:"cart_id"`
@@ -24,18 +24,18 @@ type CartItem struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// AddItemRequest represents the request to add an item to the cart
+// AddItemRequest repräsentiert Anfrage zum Hinzufügen eines Artikels
 type AddItemRequest struct {
 	ProductID uuid.UUID `json:"product_id"`
 	Quantity  int       `json:"quantity"`
 }
 
-// UpdateItemRequest represents the request to update a cart item
+// UpdateItemRequest repräsentiert Anfrage zum Aktualisieren eines Warenkorb-Artikels
 type UpdateItemRequest struct {
 	Quantity int `json:"quantity"`
 }
 
-// CartResponse represents the cart in API responses
+// CartResponse repräsentiert den Warenkorb in API-Antworten
 type CartResponse struct {
 	ID        uuid.UUID          `json:"id"`
 	UserID    uuid.UUID          `json:"user_id"`
@@ -44,7 +44,7 @@ type CartResponse struct {
 	UpdatedAt time.Time          `json:"updated_at"`
 }
 
-// CartItemResponse represents a cart item in API responses
+// CartItemResponse repräsentiert einen Warenkorb-Artikel in API-Antworten
 type CartItemResponse struct {
 	ID        uuid.UUID `json:"id"`
 	ProductID uuid.UUID `json:"product_id"`
@@ -53,7 +53,7 @@ type CartItemResponse struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// ToResponse converts a CartItem to CartItemResponse
+// ToResponse konvertiert ein CartItem zu CartItemResponse
 func (ci *CartItem) ToResponse() CartItemResponse {
 	return CartItemResponse{
 		ID:        ci.ID,
@@ -64,7 +64,7 @@ func (ci *CartItem) ToResponse() CartItemResponse {
 	}
 }
 
-// ToCartResponse converts a Cart and its items to CartResponse
+// ToCartResponse konvertiert einen Cart und seine Artikel zu CartResponse
 func ToCartResponse(cart *Cart, items []CartItem) CartResponse {
 	itemResponses := make([]CartItemResponse, len(items))
 	for i, item := range items {

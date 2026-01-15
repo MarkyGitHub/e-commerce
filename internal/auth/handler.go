@@ -8,12 +8,12 @@ import (
 	"github.com/mschl/ecommerce-api/internal/shared"
 )
 
-// Handler handles authentication HTTP requests
+// Handler verarbeitet Authentifizierungs-HTTP-Anfragen
 type Handler struct {
 	service AuthService
 }
 
-// NewHandler creates a new authentication handler
+// NewHandler erstellt einen neuen Authentifizierungs-Handler
 func NewHandler(service AuthService) *Handler {
 	return &Handler{service: service}
 }
@@ -97,7 +97,7 @@ func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
-// handleError converts service errors to HTTP responses
+// handleError konvertiert Service-Fehler zu HTTP-Antworten
 func (h *Handler) handleError(w http.ResponseWriter, err error) {
 	switch {
 	case errors.Is(err, shared.ErrInvalidEmail):
