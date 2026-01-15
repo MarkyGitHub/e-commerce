@@ -554,88 +554,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "patch": {
-                "security": [
-                    {
-                        "SessionToken": []
-                    }
-                ],
-                "description": "Increment inventory quantity for a product. Requires admin role. Increments the current quantity by the specified amount.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "inventory"
-                ],
-                "summary": "Increment inventory",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Session token",
-                        "name": "X-Session-Token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "format": "uuid",
-                        "description": "Product ID",
-                        "name": "product_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Inventory increment details",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/internal_inventory.UpdateInventoryRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Inventory incremented successfully",
-                        "schema": {
-                            "$ref": "#/definitions/internal_inventory.InventoryResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or validation error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Missing or invalid session token",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Insufficient permissions (admin required)",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Inventory not found for product",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
-                        }
-                    }
-                }
             }
         },
         "/notifications": {
@@ -1481,10 +1399,16 @@ const docTemplate = `{
         "internal_inventory.InventoryResponse": {
             "type": "object",
             "properties": {
+                "location": {
+                    "type": "string"
+                },
                 "product_id": {
                     "type": "string"
                 },
                 "quantity": {
+                    "type": "integer"
+                },
+                "reserved": {
                     "type": "integer"
                 },
                 "updated_at": {
@@ -1497,9 +1421,6 @@ const docTemplate = `{
             "properties": {
                 "increment_by": {
                     "type": "integer"
-                },
-                "reason": {
-                    "type": "string"
                 }
             }
         },

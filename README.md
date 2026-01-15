@@ -64,7 +64,7 @@ Eine vollständige E-Commerce REST API, gebaut in Go und umgesetzt nach einem La
 │   ├── cart/                 # Warenkorb-Modul
 │   ├── config/               # Zentrale Konfiguration
 │   ├── db/                   # Datenbankverbindung und Migrationen
-│   ├── inventory/            # Bestandsverwaltungsmodul
+│   ├── inventory/            # Bestandsverwaltungsmodul (Stocks)
 │   ├── middleware/           # HTTP-Middleware (Auth, Rollen)
 │   ├── notifications/        # Benachrichtigungsmodul
 │   ├── orders/               # Bestellabwicklungsmodul

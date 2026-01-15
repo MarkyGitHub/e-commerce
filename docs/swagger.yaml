@@ -95,16 +95,20 @@ definitions:
     type: object
   inventory.InventoryResponse:
     properties:
+      location:
+        type: string
       product_id:
         type: string
       quantity:
+        type: integer
+      reserved:
         type: integer
       updated_at:
         type: string
     type: object
   inventory.UpdateInventoryRequest:
     properties:
-      quantity:
+      increment_by:
         type: integer
     type: object
   notifications.NotificationResponse:

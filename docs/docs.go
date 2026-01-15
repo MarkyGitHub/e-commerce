@@ -1448,10 +1448,16 @@ const docTemplate = `{
         "inventory.InventoryResponse": {
             "type": "object",
             "properties": {
+                "location": {
+                    "type": "string"
+                },
                 "product_id": {
                     "type": "string"
                 },
                 "quantity": {
+                    "type": "integer"
+                },
+                "reserved": {
                     "type": "integer"
                 },
                 "updated_at": {
@@ -1462,7 +1468,7 @@ const docTemplate = `{
         "inventory.UpdateInventoryRequest": {
             "type": "object",
             "properties": {
-                "quantity": {
+                "increment_by": {
                     "type": "integer"
                 }
             }

@@ -34,60 +34,6 @@ definitions:
       email:
         type: string
       password:
-        type: string
-      username:
-        type: string
-    type: object
-  internal_auth.User:
-    properties:
-      created_at:
-        type: string
-      email:
-        type: string
-      id:
-        type: string
-      role:
-        type: string
-      updated_at:
-        type: string
-      username:
-        type: string
-    type: object
-  internal_auth.UserResponse:
-    properties:
-      created_at:
-        type: string
-      email:
-        type: string
-      id:
-        type: string
-      role:
-        type: string
-      username:
-        type: string
-    type: object
-  internal_cart.AddItemRequest:
-    properties:
-      product_id:
-        type: string
-      quantity:
-        type: integer
-    type: object
-  internal_cart.CartItemResponse:
-    properties:
-      created_at:
-        type: string
-      id:
-        type: string
-      product_id:
-        type: string
-      quantity:
-        type: integer
-      updated_at:
-        type: string
-    type: object
-  internal_cart.CartResponse:
-    properties:
       created_at:
         type: string
       id:
@@ -108,18 +54,15 @@ definitions:
     type: object
   internal_inventory.InventoryResponse:
     properties:
+      location:
+        type: string
       product_id:
         type: string
       quantity:
         type: integer
-      updated_at:
-        type: string
-    type: object
-  internal_inventory.UpdateInventoryRequest:
-    properties:
-      increment_by:
+      reserved:
         type: integer
-      reason:
+      updated_at:
         type: string
     type: object
   internal_notifications.NotificationResponse:

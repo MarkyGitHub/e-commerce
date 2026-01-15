@@ -642,6 +642,8 @@ func TestInventory_ToResponse(t *testing.T) {
 		ID:        uuid.New(),
 		ProductID: uuid.New(),
 		Quantity:  100,
+		Reserved:  5,
+		Location:  "A-01",
 	}
 
 	response := inv.ToResponse()
@@ -650,6 +652,12 @@ func TestInventory_ToResponse(t *testing.T) {
 	}
 	if response.Quantity != inv.Quantity {
 		t.Errorf("ToResponse() Quantity = %d, want %d", response.Quantity, inv.Quantity)
+	}
+	if response.Reserved != inv.Reserved {
+		t.Errorf("ToResponse() Reserved = %d, want %d", response.Reserved, inv.Reserved)
+	}
+	if response.Location != inv.Location {
+		t.Errorf("ToResponse() Location = %s, want %s", response.Location, inv.Location)
 	}
 }
 

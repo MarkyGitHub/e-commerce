@@ -95,89 +95,7 @@
                     "200": {
                         "description": "Logout successful",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Missing or invalid session token",
-                        "schema": {
-                            "$ref": "#/definitions/shared.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/shared.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/register": {
-            "post": {
-                "description": "Register a new customer account. Email must be valid format, password must be at least 8 characters, and name is required.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Register a new user",
-                "parameters": [
-                    {
-                        "description": "Registration details",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth.RegisterRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "User successfully registered",
-                        "schema": {
-                            "$ref": "#/definitions/auth.UserResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or validation error",
-                        "schema": {
-                            "$ref": "#/definitions/shared.ErrorResponse"
-                        }
-                    },
-                    "409": {
-                        "description": "Email already registered",
-                        "schema": {
-                            "$ref": "#/definitions/shared.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/shared.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/cart": {
-            "get": {
-                "security": [
-                    {
-                        "SessionToken": []
-                    }
-                ],
-                "description": "Get the current authenticated user's shopping cart with all items. If cart is empty, returns empty items array.",
-                "produces": [
-                    "application/json"
+                                }
                 ],
                 "tags": [
                     "cart"
@@ -1445,21 +1363,27 @@
         "inventory.InventoryResponse": {
             "type": "object",
             "properties": {
-                "product_id": {
-                    "type": "string"
-                },
-                "quantity": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
+              "location": {
+                "type": "string"
+              },
+              "product_id": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "reserved": {
+                "type": "integer"
+              },
+              "updated_at": {
+                "type": "string"
+              }
             }
         },
         "inventory.UpdateInventoryRequest": {
             "type": "object",
             "properties": {
-                "quantity": {
+                "increment_by": {
                     "type": "integer"
                 }
             }
