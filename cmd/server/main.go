@@ -148,6 +148,11 @@ func buildMux(database *gorm.DB) *http.ServeMux {
 	return mux
 }
 
+// BuildMux exposes the server router for E2E tests.
+func BuildMux(database *gorm.DB) *http.ServeMux {
+	return buildMux(database)
+}
+
 func run(deps serverDeps) error {
 	cfg, err := deps.loadConfig("configs", "local")
 	if err != nil {
