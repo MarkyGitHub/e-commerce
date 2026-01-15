@@ -15,7 +15,7 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// BuildMux builds the HTTP router for the application.
+// BuildMux baut den HTTP-Router für die Anwendung.
 func BuildMux(database *gorm.DB) *http.ServeMux {
 	// Repositories initialisieren
 	userRepo := auth.NewUserRepository(database)
@@ -106,7 +106,7 @@ func BuildMux(database *gorm.DB) *http.ServeMux {
 	return mux
 }
 
-// HealthCheck handles GET /health.
+// HealthCheck handelt GET /health.
 func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(`{"status":"healthy"}`))
