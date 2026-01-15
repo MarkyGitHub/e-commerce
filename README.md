@@ -225,6 +225,17 @@ Alle Tests ausführen:
 go test ./... -v
 ```
 
+E2E-Tests ausführen:
+```bash
+go test .\internal\e2e\...
+```
+
+E2E-Tests ausführen (mit Test-Environment):
+```bash
+set APP_ENV=test & go test .\internal\e2e\...
+set APP_ENV=test & go test -v .\internal\e2e\...
+```
+
 Tests mit Coverage ausführen:
 ```bash
 go test ./... -cover
