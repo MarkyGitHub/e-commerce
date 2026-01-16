@@ -302,6 +302,8 @@ set APP_ENV=test & go test -v .\internal\e2e\...
 ### Tests mit Coverage ausführen
 
 ```bash
+go test ./... -cover
+
 # Generate coverage report
 go test ./... -coverprofile=coverage.out
 

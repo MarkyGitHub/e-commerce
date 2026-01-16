@@ -19,6 +19,7 @@ type Inventory struct {
 // UpdateInventoryRequest repräsentiert Anfrage zum Aktualisieren des Inventars (PATCH - Erhöhung)
 type UpdateInventoryRequest struct {
 	IncrementBy int    `json:"increment_by"`
+	Reason      string `json:"reason,omitempty"`
 }
 
 // InventoryResponse repräsentiert das Inventar in API-Antworten
