@@ -3,13 +3,13 @@ package server
 import (
 	"net/http"
 
-	"github.com/mschl/ecommerce-api/internal/auth"
-	"github.com/mschl/ecommerce-api/internal/cart"
-	"github.com/mschl/ecommerce-api/internal/inventory"
-	"github.com/mschl/ecommerce-api/internal/middleware"
-	"github.com/mschl/ecommerce-api/internal/notifications"
-	"github.com/mschl/ecommerce-api/internal/orders"
-	"github.com/mschl/ecommerce-api/internal/products"
+	"github.com/MarkyGitHub/e-commerce/internal/auth"
+	"github.com/MarkyGitHub/e-commerce/internal/cart"
+	"github.com/MarkyGitHub/e-commerce/internal/inventory"
+	"github.com/MarkyGitHub/e-commerce/internal/middleware"
+	"github.com/MarkyGitHub/e-commerce/internal/notifications"
+	"github.com/MarkyGitHub/e-commerce/internal/orders"
+	"github.com/MarkyGitHub/e-commerce/internal/products"
 	"gorm.io/gorm"
 
 	httpSwagger "github.com/swaggo/http-swagger"

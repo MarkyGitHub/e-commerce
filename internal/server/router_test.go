@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/mschl/ecommerce-api/internal/db"
-	"github.com/mschl/ecommerce-api/internal/testutil"
+	"github.com/MarkyGitHub/e-commerce/internal/db"
+	"github.com/MarkyGitHub/e-commerce/internal/testutil"
 )
 
 func TestHealthCheck(t *testing.T) {

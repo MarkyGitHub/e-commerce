@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/mschl/ecommerce-api/internal/notifications"
+	"github.com/MarkyGitHub/e-commerce/internal/notifications"
 )
 
 // ProductService definiert Interface für Produkt-Geschäftslogik
