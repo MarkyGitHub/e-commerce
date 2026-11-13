@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 )
 
 // ProductRepository definiert Interface für Produkt-Datenzugriff

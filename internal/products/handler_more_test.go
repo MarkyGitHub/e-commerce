@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 )
 
 func TestProductHandler_List_WithValidCategoryID(t *testing.T) {

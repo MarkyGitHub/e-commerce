@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/mschl/ecommerce-api/internal/cart"
-	"github.com/mschl/ecommerce-api/internal/products"
+	"github.com/MarkyGitHub/e-commerce/internal/cart"
+	"github.com/MarkyGitHub/e-commerce/internal/products"
 	"gorm.io/gorm"
 )
 

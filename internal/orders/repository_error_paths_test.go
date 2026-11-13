@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/mschl/ecommerce-api/internal/testutil"
+	"github.com/MarkyGitHub/e-commerce/internal/testutil"
 )
 
 func TestOrderRepository_FindAll_CountError(t *testing.T) {

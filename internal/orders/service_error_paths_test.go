@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/mschl/ecommerce-api/internal/cart"
-	"github.com/mschl/ecommerce-api/internal/notifications"
-	"github.com/mschl/ecommerce-api/internal/products"
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/cart"
+	"github.com/MarkyGitHub/e-commerce/internal/notifications"
+	"github.com/MarkyGitHub/e-commerce/internal/products"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 	"gorm.io/gorm"
 )
 
