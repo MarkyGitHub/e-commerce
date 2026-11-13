@@ -112,6 +112,32 @@ func TestLoad_InvalidFile(t *testing.T) {
 	}
 }
 
+func TestLoad_ProdRequiresPassword(t *testing.T) {
+	t.Setenv("APP_ENV", "prod")
+	os.Unsetenv("DB_PASSWORD")
+
+	_, err := Load("")
+	if err == nil {
+		t.Fatal("expected error when DB_PASSWORD is missing in prod")
+	}
+	if !strings.Contains(err.Error(), "DB_PASSWORD") {
+		t.Fatalf("expected DB_PASSWORD error, got %v", err)
+	}
+}
+
+func TestLoad_ProdWithPassword(t *testing.T) {
+	t.Setenv("APP_ENV", "prod")
+	t.Setenv("DB_PASSWORD", "from-secret-manager")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.DB.Password != "from-secret-manager" {
+		t.Fatalf("expected password from env, got %q", cfg.DB.Password)
+	}
+}
+
 func TestDBConfig_DSN(t *testing.T) {
 	cfg := DBConfig{
 		Host:     "db.example",

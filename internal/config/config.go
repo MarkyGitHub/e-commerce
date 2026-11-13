@@ -41,6 +41,8 @@ func (c DBConfig) DSN() string {
 // Load lädt Konfiguration aus Umgebungsvariablen.
 // Falls envFile angegeben, wird diese Datei zuerst geladen.
 // Umgebungsvariablen haben Vorrang vor .env-Werten.
+// In prod muss DB_PASSWORD gesetzt sein (Umgebung oder Secret Manager) —
+// es gibt keinen Default und keinen Commit von Produktionsgeheimnissen.
 func Load(envFile string) (*Config, error) {
 	// .env-Datei laden falls angegeben
 	if envFile != "" {
@@ -49,8 +51,14 @@ func Load(envFile string) (*Config, error) {
 		}
 	}
 
-	return &Config{
-		AppEnv: getEnv("APP_ENV", "local"),
+	appEnv := getEnv("APP_ENV", "local")
+	passwordDefault := "example"
+	if appEnv == "prod" {
+		passwordDefault = ""
+	}
+
+	cfg := &Config{
+		AppEnv: appEnv,
 		Server: ServerConfig{
 			Port: getEnv("SERVER_PORT", "8080"),
 		},
@@ -58,11 +66,24 @@ func Load(envFile string) (*Config, error) {
 			Host:     getEnv("DB_HOST", "localhost"),
 			Port:     getEnv("DB_PORT", "5434"),
 			User:     getEnv("DB_USER", "postgres"),
-			Password: getEnv("DB_PASSWORD", "example"),
+			Password: getEnv("DB_PASSWORD", passwordDefault),
 			DBName:   getEnv("DB_NAME", "postgres"),
 			SSLMode:  getEnv("DB_SSLMODE", "disable"),
 		},
-	}, nil
+	}
+
+	if err := cfg.validate(); err != nil {
+		return nil, err
+	}
+
+	return cfg, nil
+}
+
+func (c *Config) validate() error {
+	if c.AppEnv == "prod" && c.DB.Password == "" {
+		return fmt.Errorf("DB_PASSWORD must be set via environment or secret manager in production")
+	}
+	return nil
 }
 
 // LoadFromAppEnv lädt die passende .env-Datei basierend auf APP_ENV

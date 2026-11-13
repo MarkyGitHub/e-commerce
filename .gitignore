@@ -1,0 +1,8 @@
+# Production secrets — never commit real credentials
+configs/prod.env
+
+# Local overrides / copies with secrets
+configs/*.local.env
+.env
+.env.*
+!.env.example

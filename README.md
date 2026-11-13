@@ -56,9 +56,9 @@ Eine vollständige E-Commerce REST API, gebaut in Go und umgesetzt nach einem La
 │   └── server/
 │       └── main.go           # Anwendungseinstiegspunkt
 ├── configs/
-│   ├── local.env             # Einstellungen für lokale Entwicklung
-│   ├── test.env              # Einstellungen für Testumgebung
-│   └── prod.env              # Produktionseinstellungen
+│   ├── local.env             # Lokale Entwicklung (Docker-Passwort, nicht für Prod)
+│   ├── test.env              # Testumgebung (Docker-Passwort, nicht für Prod)
+│   └── prod.env.example      # Vorlage — echte Secrets nicht committen
 ├── internal/
 │   ├── auth/                 # Authentifizierungsmodul
 │   ├── cart/                 # Warenkorb-Modul
@@ -88,13 +88,15 @@ Eine vollständige E-Commerce REST API, gebaut in Go und umgesetzt nach einem La
 
 Die Anwendung verwendet Umgebungsvariablen zur Konfiguration. Konfigurationsdateien befinden sich im Verzeichnis `configs/`.
 
+**Produktion:** `DB_PASSWORD` nie in Git speichern. Vorlage: `configs/prod.env.example`. Passwort über Umgebung oder Secret Manager setzen; ohne Passwort startet die App in `prod` nicht.
+
 | Variable | Default | Beschreibung |
 |----------|---------|--------------|
 | `APP_ENV` | local | Umgebung (`local`, `test`, `prod`) |
 | `DB_HOST` | localhost | PostgreSQL-Host |
 | `DB_PORT` | 5434 | PostgreSQL-Port |
 | `DB_USER` | postgres | PostgreSQL-Benutzername |
-| `DB_PASSWORD` | example | PostgreSQL-Passwort |
+| `DB_PASSWORD` | example (nicht in prod) | PostgreSQL-Passwort — in prod **pflicht** |
 | `DB_NAME` | postgres | Datenbankname |
 | `DB_SSLMODE` | disable | SSL-Modus (disable/require) |
 | `SERVER_PORT` | 8080 | Server-Port |

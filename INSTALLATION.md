@@ -102,7 +102,7 @@ docker-compose down -v
 | `DB_HOST` | `localhost` | Hostname des PostgreSQL-Servers |
 | `DB_PORT` | `5434` | Port des PostgreSQL-Servers |
 | `DB_USER` | `postgres` | Datenbank-Benutzername |
-| `DB_PASSWORD` | `example` | Datenbank-Passwort |
+| `DB_PASSWORD` | `example` (nicht in prod) | Datenbank-Passwort — in `prod` **pflicht**, kein Default |
 | `DB_NAME` | `postgres` | Datenbankname |
 | `DB_SSLMODE` | `disable` | SSL-Modus (`disable`, `require`, `verify-full`) |
 | `SERVER_PORT` | `8080` | HTTP-Server-Port |
@@ -110,13 +110,20 @@ docker-compose down -v
 
 ### Konfigurationsdateien
 
-Im Verzeichnis `configs/` liegen vorkonfigurierte Environment-Dateien:
+Im Verzeichnis `configs/` liegen Environment-Dateien. Produktionsgeheimnisse gehören **nicht** ins Repository.
 
 | Datei | Zweck |
 |------|---------|
-| `configs/local.env` | Einstellungen für lokale Entwicklung |
-| `configs/test.env` | Einstellungen für Testumgebung |
-| `configs/prod.env` | Produktionseinstellungen (bei Bedarf anpassen) |
+| `configs/local.env` | Lokale Entwicklung (Passwort nur für Docker Compose) |
+| `configs/test.env` | Testumgebung (Passwort nur für Docker Compose) |
+| `configs/prod.env.example` | Vorlage für Produktion — kopieren und Secrets setzen |
+| `configs/prod.env` | Lokal/Deploy (gitignored) — aus der Example-Datei erzeugen |
+
+```bash
+# Produktion: Vorlage kopieren und Passwort nur in der Umgebung setzen
+cp configs/prod.env.example configs/prod.env
+export DB_PASSWORD='…'   # oder Secret Manager / CI-Secrets
+```
 
 ### Konfigurationsdateien laden
 
