@@ -10,8 +10,8 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/mschl/ecommerce-api/internal/notifications"
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/notifications"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 )
 
 // AuthService definiert Interface für Authentifizierung

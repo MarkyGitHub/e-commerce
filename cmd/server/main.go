@@ -6,12 +6,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mschl/ecommerce-api/internal/config"
-	"github.com/mschl/ecommerce-api/internal/db"
-	"github.com/mschl/ecommerce-api/internal/server"
+	"github.com/MarkyGitHub/e-commerce/internal/config"
+	"github.com/MarkyGitHub/e-commerce/internal/db"
+	"github.com/MarkyGitHub/e-commerce/internal/server"
 	"gorm.io/gorm"
 
-	_ "github.com/mschl/ecommerce-api/docs/swagger" // Generierte Docs importieren
+	_ "github.com/MarkyGitHub/e-commerce/docs/swagger" // Generierte Docs importieren
 )
 
 // @title E-Commerce REST API

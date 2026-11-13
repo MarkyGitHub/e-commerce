@@ -52,19 +52,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request body",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Invalid credentials",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -101,13 +101,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -147,19 +147,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request body or validation error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "409": {
                         "description": "Email already registered",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -199,13 +199,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -246,13 +246,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -304,25 +304,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request body, validation error, insufficient inventory, or invalid quantity",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Product not found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -382,31 +382,31 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request body, validation error, insufficient inventory, or invalid quantity",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "403": {
                         "description": "Access denied (not your cart item)",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Cart item not found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -455,31 +455,31 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid item ID format",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "403": {
                         "description": "Access denied (not your cart item)",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Cart item not found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -538,19 +538,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid product ID format",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Inventory not found for product",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -593,13 +593,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -650,31 +650,31 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid notification ID format",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "403": {
                         "description": "Access denied (not your notification)",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Notification not found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -727,7 +727,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.PaginatedResponse"
+                                    "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.PaginatedResponse"
                                 },
                                 {
                                     "type": "object",
@@ -746,13 +746,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -802,19 +802,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Cart is empty, insufficient inventory, or invalid shipping address",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -862,31 +862,31 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid order ID format",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "403": {
                         "description": "Access denied (not your order)",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Order not found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -934,7 +934,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.PaginatedResponse"
+                                    "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.PaginatedResponse"
                                 },
                                 {
                                     "type": "object",
@@ -953,7 +953,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -1003,25 +1003,25 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request body or validation error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "403": {
                         "description": "Insufficient permissions (admin required)",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -1057,19 +1057,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid product ID format",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Product not found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -1127,31 +1127,31 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request body or validation error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "403": {
                         "description": "Insufficient permissions (admin required)",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Product not found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -1200,31 +1200,31 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid product ID format",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Missing or invalid session token",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "403": {
                         "description": "Insufficient permissions (admin required)",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Product not found",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse"
+                            "$ref": "#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse"
                         }
                     }
                 }
@@ -1232,7 +1232,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_mschl_ecommerce-api_internal_shared.ErrorResponse": {
+        "github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse": {
             "type": "object",
             "properties": {
                 "error": {
@@ -1243,7 +1243,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_mschl_ecommerce-api_internal_shared.PaginatedResponse": {
+        "github_com_MarkyGitHub_e-commerce_internal_shared.PaginatedResponse": {
             "type": "object",
             "properties": {
                 "items": {},

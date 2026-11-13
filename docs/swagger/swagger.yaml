@@ -1,13 +1,13 @@
 basePath: /
 definitions:
-  github_com_mschl_ecommerce-api_internal_shared.ErrorResponse:
+  github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse:
     properties:
       error:
         type: string
       message:
         type: string
     type: object
-  github_com_mschl_ecommerce-api_internal_shared.PaginatedResponse:
+  github_com_MarkyGitHub_e-commerce_internal_shared.PaginatedResponse:
     properties:
       items: {}
       total_count:
@@ -216,15 +216,15 @@ paths:
         "400":
           description: Invalid request body
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Invalid credentials
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       summary: Login
       tags:
       - auth
@@ -246,11 +246,11 @@ paths:
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Logout
@@ -279,15 +279,15 @@ paths:
         "400":
           description: Invalid request body or validation error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "409":
           description: Email already registered
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       summary: Register a new user
       tags:
       - auth
@@ -313,11 +313,11 @@ paths:
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Clear cart
@@ -342,11 +342,11 @@ paths:
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Get cart
@@ -382,19 +382,19 @@ paths:
           description: Invalid request body, validation error, insufficient inventory,
             or invalid quantity
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Product not found
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Add item to cart
@@ -428,23 +428,23 @@ paths:
         "400":
           description: Invalid item ID format
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "403":
           description: Access denied (not your cart item)
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Cart item not found
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Remove cart item
@@ -484,23 +484,23 @@ paths:
           description: Invalid request body, validation error, insufficient inventory,
             or invalid quantity
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "403":
           description: Access denied (not your cart item)
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Cart item not found
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Update cart item
@@ -542,15 +542,15 @@ paths:
         "400":
           description: Invalid product ID format
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Inventory not found for product
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       summary: Get inventory
       tags:
       - inventory
@@ -587,23 +587,23 @@ paths:
         "400":
           description: Invalid request body or validation error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "403":
           description: Insufficient permissions (admin required)
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Inventory not found for product
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Increment inventory
@@ -631,11 +631,11 @@ paths:
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: List notifications
@@ -669,23 +669,23 @@ paths:
         "400":
           description: Invalid notification ID format
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "403":
           description: Access denied (not your notification)
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Notification not found
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Mark notification as read
@@ -721,7 +721,7 @@ paths:
           description: List of orders
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.PaginatedResponse'
+            - $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.PaginatedResponse'
             - properties:
                 data:
                   items:
@@ -731,11 +731,11 @@ paths:
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: List orders
@@ -770,15 +770,15 @@ paths:
           description: Cart is empty, insufficient inventory, or invalid shipping
             address
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Create order
@@ -810,23 +810,23 @@ paths:
         "400":
           description: Invalid order ID format
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "403":
           description: Access denied (not your order)
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Order not found
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Get order
@@ -862,7 +862,7 @@ paths:
           description: List of products
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.PaginatedResponse'
+            - $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.PaginatedResponse'
             - properties:
                 items:
                   items:
@@ -872,7 +872,7 @@ paths:
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       summary: List products
       tags:
       - products
@@ -903,19 +903,19 @@ paths:
         "400":
           description: Invalid request body or validation error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "403":
           description: Insufficient permissions (admin required)
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Create product
@@ -948,23 +948,23 @@ paths:
         "400":
           description: Invalid product ID format
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "403":
           description: Insufficient permissions (admin required)
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Product not found
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Delete product
@@ -989,15 +989,15 @@ paths:
         "400":
           description: Invalid product ID format
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Product not found
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       summary: Get product
       tags:
       - products
@@ -1034,23 +1034,23 @@ paths:
         "400":
           description: Invalid request body or validation error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "401":
           description: Missing or invalid session token
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "403":
           description: Insufficient permissions (admin required)
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "404":
           description: Product not found
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/github_com_mschl_ecommerce-api_internal_shared.ErrorResponse'
+            $ref: '#/definitions/github_com_MarkyGitHub_e-commerce_internal_shared.ErrorResponse'
       security:
       - SessionToken: []
       summary: Update product

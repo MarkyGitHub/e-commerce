@@ -10,8 +10,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
-	"github.com/mschl/ecommerce-api/internal/notifications"
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/notifications"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 )
 
 // MockUserRepository is a mock implementation of UserRepository

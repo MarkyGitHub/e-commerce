@@ -1,4 +1,4 @@
-module github.com/mschl/ecommerce-api
+module github.com/MarkyGitHub/e-commerce
 
 go 1.26.0
 

@@ -7,8 +7,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/mschl/ecommerce-api/internal/middleware"
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/middleware"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 )
 
 // Handler verarbeitet Warenkorb-HTTP-Anfragen

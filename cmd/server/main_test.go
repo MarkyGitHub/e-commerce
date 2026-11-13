@@ -6,9 +6,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/mschl/ecommerce-api/internal/config"
-	"github.com/mschl/ecommerce-api/internal/db"
-	"github.com/mschl/ecommerce-api/internal/testutil"
+	"github.com/MarkyGitHub/e-commerce/internal/config"
+	"github.com/MarkyGitHub/e-commerce/internal/db"
+	"github.com/MarkyGitHub/e-commerce/internal/testutil"
 	"gorm.io/gorm"
 )
 
