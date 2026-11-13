@@ -51,21 +51,6 @@ func (c cartItemRepoFindErr) FindByCartAndProduct(ctx context.Context, cartID, p
 	return nil, shared.ErrNotFound
 }
 
-type cartItemRepoDeleteErr struct{ err error }
-
-func (c cartItemRepoDeleteErr) Create(ctx context.Context, item *CartItem) error { return nil }
-func (c cartItemRepoDeleteErr) FindByCartID(ctx context.Context, cartID uuid.UUID) ([]CartItem, error) {
-	return nil, nil
-}
-func (c cartItemRepoDeleteErr) FindByID(ctx context.Context, id uuid.UUID) (*CartItem, error) {
-	return &CartItem{ID: id, CartID: uuid.New(), ProductID: uuid.New(), Quantity: 1}, nil
-}
-func (c cartItemRepoDeleteErr) Update(ctx context.Context, item *CartItem) error { return nil }
-func (c cartItemRepoDeleteErr) Delete(ctx context.Context, id uuid.UUID) error   { return c.err }
-func (c cartItemRepoDeleteErr) FindByCartAndProduct(ctx context.Context, cartID, productID uuid.UUID) (*CartItem, error) {
-	return nil, shared.ErrNotFound
-}
-
 type cartRepoFixed struct{ cart *Cart }
 
 func (c cartRepoFixed) FindOrCreateByUserID(ctx context.Context, userID uuid.UUID) (*Cart, error) {

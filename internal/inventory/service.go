@@ -75,12 +75,10 @@ func (s *inventoryService) IncrementInventory(ctx context.Context, productID uui
 		return nil, err
 	}
 
-	// Benachrichtigung für Inventaraktualisierung erstellen
+	// Benachrichtigung für Inventaraktualisierung erstellen (Fehler ignorieren – Update nicht abbrechen)
 	title := "Inventory Updated"
 	message := "Inventory updated successfully."
-	if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-		// Fehler loggen, aber Inventaraktualisierung nicht abbrechen
-	}
+	_, _ = s.notificationService.CreateNotification(ctx, userID, title, message)
 
 	return inventory, nil
 }

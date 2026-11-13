@@ -596,7 +596,9 @@ func TestProductHandler_CRUDFlow(t *testing.T) {
 		}
 
 		var response Product
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal create response: %v", err)
+		}
 		createdID = response.ID
 	})
 
@@ -613,7 +615,9 @@ func TestProductHandler_CRUDFlow(t *testing.T) {
 		}
 
 		var response Product
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal get response: %v", err)
+		}
 		if response.Name != "CRUD Test Product" {
 			t.Errorf("Expected 'CRUD Test Product', got %s", response.Name)
 		}
@@ -635,7 +639,9 @@ func TestProductHandler_CRUDFlow(t *testing.T) {
 		}
 
 		var response Product
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal update response: %v", err)
+		}
 		if response.Name != "Updated CRUD Product" {
 			t.Errorf("Expected 'Updated CRUD Product', got %s", response.Name)
 		}
@@ -653,7 +659,9 @@ func TestProductHandler_CRUDFlow(t *testing.T) {
 		}
 
 		var response shared.PaginatedResponse
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal list response: %v", err)
+		}
 		if response.TotalCount != 1 {
 			t.Errorf("Expected 1 product, got %d", response.TotalCount)
 		}

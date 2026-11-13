@@ -73,12 +73,10 @@ func (s *authService) Register(ctx context.Context, req RegisterRequest) (*User,
 		return nil, err
 	}
 
-	// Benachrichtigung für Registrierung erstellen
+	// Benachrichtigung für Registrierung erstellen (Fehler ignorieren – Registrierung nicht abbrechen)
 	title := "Willkommen"
 	message := "Dein Konto wurde erfolgreich erstellt."
-	if _, err := s.notificationService.CreateNotification(ctx, user.ID, title, message); err != nil {
-		// Fehler loggen, aber Registrierung nicht abbrechen
-	}
+	_, _ = s.notificationService.CreateNotification(ctx, user.ID, title, message)
 
 	return user, nil
 }
@@ -117,12 +115,10 @@ func (s *authService) Login(ctx context.Context, req LoginRequest) (*LoginRespon
 		return nil, err
 	}
 
-	// Benachrichtigung für Login erstellen
+	// Benachrichtigung für Login erstellen (Fehler ignorieren – Login nicht abbrechen)
 	title := "Anmeldung"
 	message := "Du hast dich erfolgreich angemeldet."
-	if _, err := s.notificationService.CreateNotification(ctx, user.ID, title, message); err != nil {
-		// Fehler loggen, aber Login nicht abbrechen
-	}
+	_, _ = s.notificationService.CreateNotification(ctx, user.ID, title, message)
 
 	return &LoginResponse{
 		SessionToken: session.Token,
@@ -144,12 +140,10 @@ func (s *authService) Logout(ctx context.Context, token string) error {
 		return err
 	}
 
-	// Benachrichtigung für Logout erstellen
+	// Benachrichtigung für Logout erstellen (Fehler ignorieren – Logout nicht abbrechen)
 	title := "Abmeldung"
 	message := "Du hast dich erfolgreich abgemeldet."
-	if _, err := s.notificationService.CreateNotification(ctx, session.UserID, title, message); err != nil {
-		// Fehler loggen, aber Logout nicht abbrechen
-	}
+	_, _ = s.notificationService.CreateNotification(ctx, session.UserID, title, message)
 
 	return nil
 }
@@ -166,8 +160,8 @@ func (s *authService) ValidateSession(ctx context.Context, token string) (*User,
 
 	// Prüfen ob Session abgelaufen ist
 	if time.Now().After(session.ExpiresAt) {
-		// Abgelaufene Session löschen
-		s.sessionRepo.Delete(ctx, token)
+		// Abgelaufene Session löschen (Fehler ignorieren – Unauthorized bleibt maßgeblich)
+		_ = s.sessionRepo.Delete(ctx, token)
 		return nil, shared.ErrUnauthorized
 	}
 

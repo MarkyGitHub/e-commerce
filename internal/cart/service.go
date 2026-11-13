@@ -97,12 +97,10 @@ func (s *cartService) AddItem(ctx context.Context, userID uuid.UUID, req AddItem
 		if err := s.cartItemRepo.Update(ctx, existingItem); err != nil {
 			return nil, err
 		}
-		// Benachrichtigung für Warenkorb-Aktualisierung erstellen
+		// Benachrichtigung für Warenkorb-Aktualisierung erstellen (Fehler ignorieren – Update nicht abbrechen)
 		title := "Cart Updated"
 		message := "Cart item quantity updated successfully."
-		if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-			// Fehler loggen, aber Warenkorb-Aktualisierung nicht abbrechen
-		}
+		_, _ = s.notificationService.CreateNotification(ctx, userID, title, message)
 		return existingItem, nil
 	}
 	if err != shared.ErrNotFound {
@@ -120,12 +118,10 @@ func (s *cartService) AddItem(ctx context.Context, userID uuid.UUID, req AddItem
 		return nil, err
 	}
 
-	// Benachrichtigung für Warenkorb-Aktualisierung erstellen
+	// Benachrichtigung für Warenkorb-Aktualisierung erstellen (Fehler ignorieren – Hinzufügen nicht abbrechen)
 	title := "Cart Updated"
 	message := "Item added to cart successfully."
-	if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-		// Fehler loggen, aber Hinzufügen nicht abbrechen
-	}
+	_, _ = s.notificationService.CreateNotification(ctx, userID, title, message)
 
 	return item, nil
 }
@@ -163,12 +159,10 @@ func (s *cartService) UpdateItem(ctx context.Context, userID uuid.UUID, itemID u
 		return nil, err
 	}
 
-	// Benachrichtigung für Warenkorb-Aktualisierung erstellen
+	// Benachrichtigung für Warenkorb-Aktualisierung erstellen (Fehler ignorieren – Update nicht abbrechen)
 	title := "Cart Updated"
 	message := "Cart item quantity updated successfully."
-	if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-		// Fehler loggen, aber Warenkorb-Aktualisierung nicht abbrechen
-	}
+	_, _ = s.notificationService.CreateNotification(ctx, userID, title, message)
 
 	return item, nil
 }

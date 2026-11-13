@@ -49,12 +49,10 @@ func (s *productService) CreateProduct(ctx context.Context, req CreateProductReq
 		return nil, err
 	}
 
-	// Benachrichtigung für Produkterstellung erstellen
+	// Benachrichtigung für Produkterstellung erstellen (Fehler ignorieren – Erstellung nicht abbrechen)
 	title := "Product Created"
 	message := "Product created successfully."
-	if _, err := s.notificationService.CreateNotification(ctx, userID, title, message); err != nil {
-		// Fehler loggen, aber Produkterstellung nicht abbrechen
-	}
+	_, _ = s.notificationService.CreateNotification(ctx, userID, title, message)
 
 	return product, nil
 }

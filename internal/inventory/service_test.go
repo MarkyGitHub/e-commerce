@@ -699,7 +699,7 @@ func TestInventoryService_NotificationErrors(t *testing.T) {
 		t.Errorf("IncrementInventory() should succeed even if notification fails, got error: %v", err)
 	}
 	if inv == nil {
-		t.Error("IncrementInventory() should return inventory even if notification fails")
+		t.Fatal("IncrementInventory() should return inventory even if notification fails")
 	}
 	if inv.Quantity != 60 {
 		t.Errorf("IncrementInventory() quantity = %v, want %v", inv.Quantity, 60)

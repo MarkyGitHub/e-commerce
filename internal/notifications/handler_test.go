@@ -279,7 +279,9 @@ func TestNotificationHandler_Flow(t *testing.T) {
 		}
 
 		var response []NotificationResponse
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal list response: %v", err)
+		}
 		if len(response) != 2 {
 			t.Errorf("Expected 2 notifications, got %d", len(response))
 		}

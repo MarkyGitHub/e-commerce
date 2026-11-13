@@ -423,7 +423,9 @@ func TestAuthHandler_FullFlow(t *testing.T) {
 		}
 
 		var response LoginResponse
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal login response: %v", err)
+		}
 		sessionToken = response.SessionToken
 	})
 

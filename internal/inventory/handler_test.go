@@ -349,7 +349,9 @@ func TestInventoryHandler_UpdateFlow(t *testing.T) {
 		}
 
 		var response InventoryResponse
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal get response: %v", err)
+		}
 		if response.Quantity != 50 {
 			t.Errorf("Expected initial quantity 50, got %d", response.Quantity)
 		}
@@ -371,7 +373,9 @@ func TestInventoryHandler_UpdateFlow(t *testing.T) {
 		}
 
 		var response InventoryResponse
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal update response: %v", err)
+		}
 		if response.Quantity != 200 { // 50 base + 150 increment
 			t.Errorf("Expected updated quantity 200, got %d", response.Quantity)
 		}
@@ -390,7 +394,9 @@ func TestInventoryHandler_UpdateFlow(t *testing.T) {
 		}
 
 		var response InventoryResponse
-		json.Unmarshal(rr.Body.Bytes(), &response)
+		if err := json.Unmarshal(rr.Body.Bytes(), &response); err != nil {
+			t.Fatalf("Failed to unmarshal verify response: %v", err)
+		}
 		if response.Quantity != 200 { // 50 base + 150 increment
 			t.Errorf("Expected quantity 200 after update, got %d", response.Quantity)
 		}

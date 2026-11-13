@@ -109,5 +109,5 @@ func BuildMux(database *gorm.DB) *http.ServeMux {
 // HealthCheck handelt GET /health.
 func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`{"status":"healthy"}`))
+	_, _ = w.Write([]byte(`{"status":"healthy"}`))
 }
