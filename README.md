@@ -111,7 +111,7 @@ Die Anwendung verwendet Umgebungsvariablen zur Konfiguration. Konfigurationsdate
 
 2. **Docker starten**:
    ```bash
-   ocker-compose up -d
+   docker-compose up -d
    ```
 
 3. **Abhängigkeiten installieren**:
