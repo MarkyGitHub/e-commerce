@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/mschl/ecommerce-api/internal/auth"
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/auth"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 )
 
 func createRequestWithUser(r *http.Request, userID uuid.UUID, role string) *http.Request {

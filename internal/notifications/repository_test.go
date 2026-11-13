@@ -8,8 +8,8 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
-	"github.com/mschl/ecommerce-api/internal/shared"
-	"github.com/mschl/ecommerce-api/internal/testutil"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/testutil"
 )
 
 // TestUser is a local user struct for repository tests to avoid import cycle with auth package

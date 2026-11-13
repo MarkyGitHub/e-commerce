@@ -3,8 +3,8 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/mschl/ecommerce-api/internal/auth"
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/auth"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 )
 
 // RequireRole erstellt Middleware die eine bestimmte Rolle erfordert
