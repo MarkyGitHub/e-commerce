@@ -5,12 +5,12 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/mschl/ecommerce-api/internal/auth"
-	"github.com/mschl/ecommerce-api/internal/cart"
-	"github.com/mschl/ecommerce-api/internal/inventory"
-	"github.com/mschl/ecommerce-api/internal/notifications"
-	"github.com/mschl/ecommerce-api/internal/orders"
-	"github.com/mschl/ecommerce-api/internal/products"
+	"github.com/MarkyGitHub/e-commerce/internal/auth"
+	"github.com/MarkyGitHub/e-commerce/internal/cart"
+	"github.com/MarkyGitHub/e-commerce/internal/inventory"
+	"github.com/MarkyGitHub/e-commerce/internal/notifications"
+	"github.com/MarkyGitHub/e-commerce/internal/orders"
+	"github.com/MarkyGitHub/e-commerce/internal/products"
 )
 
 // Migrate führt Datenbankmigrationen für alle Modelle aus

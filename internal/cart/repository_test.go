@@ -7,10 +7,10 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
-	"github.com/mschl/ecommerce-api/internal/auth"
-	"github.com/mschl/ecommerce-api/internal/products"
-	"github.com/mschl/ecommerce-api/internal/shared"
-	"github.com/mschl/ecommerce-api/internal/testutil"
+	"github.com/MarkyGitHub/e-commerce/internal/auth"
+	"github.com/MarkyGitHub/e-commerce/internal/products"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/testutil"
 )
 
 func setupCartTestDB(t *testing.T) *gorm.DB {

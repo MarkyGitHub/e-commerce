@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mschl/ecommerce-api/internal/auth"
-	"github.com/mschl/ecommerce-api/internal/cart"
+	"github.com/MarkyGitHub/e-commerce/internal/auth"
+	"github.com/MarkyGitHub/e-commerce/internal/cart"
 )
 
 func TestE2E_CartRequiresAuth(t *testing.T) {

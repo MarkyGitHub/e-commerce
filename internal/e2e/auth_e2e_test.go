@@ -14,12 +14,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
-	"github.com/mschl/ecommerce-api/internal/auth"
-	"github.com/mschl/ecommerce-api/internal/db"
-	"github.com/mschl/ecommerce-api/internal/inventory"
-	"github.com/mschl/ecommerce-api/internal/products"
-	"github.com/mschl/ecommerce-api/internal/server"
-	"github.com/mschl/ecommerce-api/internal/testutil"
+	"github.com/MarkyGitHub/e-commerce/internal/auth"
+	"github.com/MarkyGitHub/e-commerce/internal/db"
+	"github.com/MarkyGitHub/e-commerce/internal/inventory"
+	"github.com/MarkyGitHub/e-commerce/internal/products"
+	"github.com/MarkyGitHub/e-commerce/internal/server"
+	"github.com/MarkyGitHub/e-commerce/internal/testutil"
 )
 
 type loginResponse struct {

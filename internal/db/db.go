@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 
-	"github.com/mschl/ecommerce-api/internal/config"
+	"github.com/MarkyGitHub/e-commerce/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

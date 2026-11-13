@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mschl/ecommerce-api/internal/notifications"
+	"github.com/MarkyGitHub/e-commerce/internal/notifications"
 )
 
 func TestE2E_NotificationsRequireAuth(t *testing.T) {

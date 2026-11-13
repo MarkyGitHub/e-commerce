@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mschl/ecommerce-api/internal/cart"
-	"github.com/mschl/ecommerce-api/internal/inventory"
-	"github.com/mschl/ecommerce-api/internal/orders"
+	"github.com/MarkyGitHub/e-commerce/internal/cart"
+	"github.com/MarkyGitHub/e-commerce/internal/inventory"
+	"github.com/MarkyGitHub/e-commerce/internal/orders"
 )
 
 type paginatedResponse struct {

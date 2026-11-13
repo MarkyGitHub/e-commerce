@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mschl/ecommerce-api/internal/config"
+	"github.com/MarkyGitHub/e-commerce/internal/config"
 )
 
 func TestConnectWithDSN_InvalidDSN_ReturnsError(t *testing.T) {

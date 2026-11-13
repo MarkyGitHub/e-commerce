@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/mschl/ecommerce-api/internal/inventory"
-	"github.com/mschl/ecommerce-api/internal/products"
-	"github.com/mschl/ecommerce-api/internal/shared"
+	"github.com/MarkyGitHub/e-commerce/internal/inventory"
+	"github.com/MarkyGitHub/e-commerce/internal/products"
+	"github.com/MarkyGitHub/e-commerce/internal/shared"
 )
 
 type failingCartItemRepo struct{ err error }
